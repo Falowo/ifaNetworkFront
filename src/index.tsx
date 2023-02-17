@@ -1,20 +1,35 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import './index.css';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
+// import { Auth0Provider } from "@auth0/auth0-react";
+import { BrowserRouter } from "react-router-dom";
 
-const container = document.getElementById('root')!;
+// const clientId = process.env.REACT_APP_CLIENT_ID;
+// const domain = process.env.REACT_APP_DOMAIN;
+
+const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <BrowserRouter>
+    {/* <Auth0Provider
+      domain={domain!}
+      clientId={clientId!}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    > */}
+      <React.StrictMode>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </React.StrictMode>
+    {/* </Auth0Provider> */}
+  </BrowserRouter>,
 );
 
 // If you want to start measuring performance in your app, pass a function
