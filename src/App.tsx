@@ -4,13 +4,13 @@ import "./App.css";
 import { Container } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 
-import Ifa from "./features/ifa/Ifa";
+import OponIfa from "./pages/oponIfa/OponIfa";
 import {
   ThemeProvider,
   createTheme,
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-
+import TopBar from "./components/topBar/TopBar";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -25,8 +25,9 @@ function App() {
         maxWidth="xl"
         style={{ backgroundColor: "black" }}
       >
+        <TopBar />
         <Routes>
-          <Route path="/" element={<Ifa />} />
+          <Route path="/" element={<OponIfa />} />
         </Routes>
       </Container>
     </ThemeProvider>

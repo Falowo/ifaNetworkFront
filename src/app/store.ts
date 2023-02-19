@@ -4,11 +4,9 @@ import {
   Action,
   combineReducers,
 } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
-import ifaReducer from "../features/ifa/ifaSlice";
+import ifaReducer from "./slices/ifaSlice";
 
 export const rootReducer = combineReducers({
-  counter: counterReducer,
   ifa: ifaReducer,
 });
 

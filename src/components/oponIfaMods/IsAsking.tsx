@@ -3,11 +3,11 @@ import { Grid } from "@mui/material";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../app/hooks";
+} from "../../app/hooks";
 import {
   askQuestionAsync,
   selectQuestion,
-} from "../ifaSlice";
+} from "../../app/slices/ifaSlice";
 
 export default function IsAsking() {
   const dispatch = useAppDispatch();
@@ -16,13 +16,14 @@ export default function IsAsking() {
   const textShadow2 = "-1px 1px #002021";
 
   return (
-    <div>
+    <div style={{ marginTop: "10%" }}>
       <Grid
-        className="printGrid"
+        // className="printGrid"
         container
         spacing={1}
         margin="0 auto"
         width="100%"
+        sx={{ border: "2px solid blue" }}
         onClick={(e) => {
           e.stopPropagation();
           dispatch(askQuestionAsync({ ibo: true }));

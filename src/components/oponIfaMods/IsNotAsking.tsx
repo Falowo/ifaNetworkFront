@@ -3,16 +3,16 @@ import { Grid } from "@mui/material";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../../app/hooks";
+} from "../../app/hooks";
 import {
-  castOdu,
+  // castOdu,
   Mark,
   modifyCurrentOdu,
   selectCurrentOdu,
   selectIndexCurrentOdu,
   selectOduHistory,
-} from "../ifaSlice";
-import * as timeago from "timeago.js";
+} from "../../app/slices/ifaSlice";
+// import * as timeago from "timeago.js";
 import { Mediation } from "@mui/icons-material";
 
 export default function IsNotAsking() {
@@ -25,17 +25,13 @@ export default function IsNotAsking() {
   const textShadow = "-4px 1px #002021";
 
   return (
-    <div>
+    <div style={{ marginTop: "10%" }}>
       <Grid
-        className="printGrid"
         container
         spacing={1}
-        margin="0 auto"
         width="100%"
-        onClick={(e) => {
-          e.stopPropagation();
-          dispatch(castOdu());
-        }}
+        margin="0 auto"
+        sx={{ border: "solid 2px green" }}
       >
         <Grid item xs={4.5}></Grid>
         <Grid item xs={1.5}>
@@ -68,8 +64,13 @@ export default function IsNotAsking() {
                     className="markItem"
                     style={{
                       textShadow,
-                      color: !!oduHistory[indexCurrentOdu].randomColor
-                        ? `${"#" + oduHistory[indexCurrentOdu].randomColor}`
+                      color: !!oduHistory[indexCurrentOdu]
+                        .randomColor
+                        ? `${
+                            "#" +
+                            oduHistory[indexCurrentOdu]
+                              .randomColor
+                          }`
                         : "white",
                     }}
                   >
@@ -106,8 +107,13 @@ export default function IsNotAsking() {
                     className="markItem"
                     style={{
                       textShadow,
-                      color: !!oduHistory[indexCurrentOdu].randomColor
-                        ? `${"#" + oduHistory[indexCurrentOdu].randomColor}`
+                      color: !!oduHistory[indexCurrentOdu]
+                        .randomColor
+                        ? `${
+                            "#" +
+                            oduHistory[indexCurrentOdu]
+                              .randomColor
+                          }`
                         : "white",
                     }}
                   >
@@ -127,7 +133,8 @@ export default function IsNotAsking() {
         >
           {!!oduHistory[indexCurrentOdu] &&
             oduHistory[indexCurrentOdu].leg0.length === 4 &&
-            oduHistory[indexCurrentOdu].leg1.length === 4 && (
+            oduHistory[indexCurrentOdu].leg1.length ===
+              4 && (
               <Mediation
                 onClick={(e) => {
                   e.stopPropagation();
@@ -148,7 +155,7 @@ export default function IsNotAsking() {
 
         <Grid item xs={8}></Grid>
         <Grid item xs={4}>
-          <div className="oduHistoryList">
+          {/* <div className="oduHistoryList">
             {!!oduHistory &&
               !!oduHistory?.length &&
               oduHistory
@@ -186,7 +193,7 @@ export default function IsNotAsking() {
                     </>
                   );
                 })}
-          </div>
+          </div> */}
         </Grid>
       </Grid>
     </div>

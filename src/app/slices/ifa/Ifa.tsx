@@ -15,7 +15,7 @@ import { Input } from "@mui/material";
 import {
   useAppDispatch,
   useAppSelector,
-} from "../../app/hooks";
+} from "../../hooks";
 import {
   askQuestionAsync,
   blankTrail,
@@ -27,9 +27,9 @@ import {
   // selectCurrentOdu,
   selectIndexCurrentOdu,
   selectOduHistory,
-} from "./ifaSlice";
-import IsNotAsking from "./components/IsNotAsking";
-import IsAsking from "./components/IsAsking";
+} from "../ifaSlice";
+import IsNotAsking from "../../../components/oponIfaMods/IsNotAsking";
+import IsAsking from "../../../components/oponIfaMods/IsAsking";
 
 export default function Ifa() {
   const [isAsking, setIsAsking] = useState<boolean>(false);
