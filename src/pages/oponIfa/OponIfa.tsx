@@ -5,7 +5,6 @@ import { Box, Container } from "@mui/material";
 import * as timeago from "timeago.js";
 
 import {
-  Cached,
   QuestionMark,
   PlayArrow,
   SkipPrevious,
@@ -26,8 +25,6 @@ import {
   decrementIndexCurrentQuestion,
   incrementIndexCurrentOdu,
   incrementIndexCurrentQuestion,
-  initializeIndexCurrentOdu,
-  initializeIndexCurrentQuestion,
   // selectCurrentOdu,
   selectIndexCurrentOdu,
   selectIndexCurrentQuestion,
@@ -110,9 +107,7 @@ export default function OponIfa() {
           flexFlow: "row-reverse",
           flexWrap: "nowrap",
           justifyContent: "space-between",
-          //   padding: "5px",
           alignItems: "center",
-          border: "solid 3px red",
         }}
       >
         {!isAsking ? (
@@ -122,12 +117,12 @@ export default function OponIfa() {
               setIsAsking(true);
             }}
             sx={{
-              fontSize: "3rem",
-              fontWeight: "bolder",
+              fontSize: "1.5rem",
+            //   fontWeight: "bolder",
               cursor: "pointer",
-              margin: "16px",
-              minWidth: "64px",
-              minHeight: "64px",
+              margin: "8px",
+              minWidth: "32px",
+              minHeight: "32px",
             }}
           />
         ) : (
@@ -137,12 +132,12 @@ export default function OponIfa() {
               setIsAsking(false);
             }}
             sx={{
-              fontSize: "3rem",
-              fontWeight: "bolder",
+              fontSize: "1.5rem",
+            //   fontWeight: "bolder",
               cursor: "pointer",
-              margin: "16px",
-              minWidth: "64px",
-              minHeight: "64px",
+              margin: "8px",
+              minWidth: "32px",
+              minHeight: "32px",
             }}
           />
         )}
@@ -157,19 +152,19 @@ export default function OponIfa() {
               }
             }}
             sx={{
-              fontSize: "3rem",
-              fontWeight: "bolder",
+              fontSize: "1.5rem",
+            //   fontWeight: "bolder",
               cursor: "pointer",
-              margin: "16px",
-              minWidth: "64px",
-              minHeight: "64px",
+              margin: "8px",
+              minWidth: "32px",
+              minHeight: "32px",
             }}
           />
         }
 
         <div
           style={{
-            minWidth: "64px",
+            minWidth: "8px",
             display: "flex",
             flexWrap: "nowrap",
             alignItems: "center",
@@ -195,12 +190,12 @@ export default function OponIfa() {
                     }
                   }}
                   sx={{
-                    fontSize: "3rem",
-                    fontWeight: "bolder",
+                    fontSize: "1.5rem",
+                    // fontWeight: "bolder",
                     cursor: "pointer",
-                    margin: "16px",
-                    minWidth: "64px",
-                    minHeight: "64px",
+                    margin: "8px",
+                    minWidth: "32px",
+                    minHeight: "32px",
                   }}
                 />
               )}
@@ -222,12 +217,12 @@ export default function OponIfa() {
                     }
                   }}
                   sx={{
-                    fontSize: "3rem",
-                    fontWeight: "bolder",
+                    fontSize: "1.5rem",
+                    // fontWeight: "bolder",
                     cursor: "pointer",
-                    margin: "16px",
-                    minWidth: "64px",
-                    minHeight: "64px",
+                    margin: "8px",
+                    minWidth: "32px",
+                    minHeight: "32px",
                   }}
                 />
               )}
@@ -256,7 +251,6 @@ export default function OponIfa() {
           />
           <Box
             className="boxOponIfaMods"
-            sx={{ border: "solid 2px hotpink" }}
           >
             {!isAsking ? <IsNotAsking /> : <IsAsking />}
           </Box>

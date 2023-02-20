@@ -31,7 +31,6 @@ export default function IsNotAsking() {
         spacing={1}
         width="100%"
         margin="0 auto"
-        sx={{ border: "solid 2px green" }}
       >
         <Grid item xs={4.5}></Grid>
         <Grid item xs={1.5}>
