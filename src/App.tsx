@@ -28,6 +28,7 @@ function App() {
         <TopBar />
         <Routes>
           <Route path="/" element={<OponIfa />} />
+          <Route path="/confidential-rules" element={<OponIfa />} />
           <Route path="/*" element={<OponIfa />} />
         </Routes>
       </Container>

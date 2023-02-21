@@ -61,6 +61,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const env = process.env.NODE_ENV;
+
   const {
     loginWithRedirect,
     logout,
@@ -119,22 +121,22 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>
         My account
       </MenuItem>
-      <MenuItem
+     {((env === "production" && !isAuthenticated && !isLoading)|| env === "development") &&( <MenuItem
         onClick={(e) => {
           e.stopPropagation();
           loginWithRedirect();
         }}
       >
         Login
-      </MenuItem>
-      <MenuItem
+      </MenuItem>)}
+     {((env === "production" && !!isAuthenticated && !isLoading)|| env === "development") &&( <MenuItem
         onClick={(e) => {
           e.stopPropagation();
           logout();
         }}
       >
         Logout
-      </MenuItem>
+      </MenuItem>)}
     </Menu>
   );
 
@@ -195,8 +197,8 @@ export default function PrimarySearchAppBar() {
   );
 
   useEffect(() => {
-    console.log({ user, isLoading, isAuthenticated });
-  }, [isLoading, user, isAuthenticated]);
+    console.log({ user, isLoading, isAuthenticated, env });
+  }, [isLoading, user, isAuthenticated, env]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
