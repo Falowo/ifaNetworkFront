@@ -16,6 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAppDispatch } from "../../app/hooks";
+import { tryTheRequestAndDbAsync } from "../../app/slices/authSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,6 +63,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const dispatch = useAppDispatch();
+
   const env = process.env.NODE_ENV;
 
   const {
@@ -121,22 +125,32 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>
         My account
       </MenuItem>
-     {((env === "production" && !isAuthenticated && !isLoading)|| env === "development") &&( <MenuItem
-        onClick={(e) => {
-          e.stopPropagation();
-          loginWithRedirect();
-        }}
-      >
-        Login
-      </MenuItem>)}
-     {((env === "production" && !!isAuthenticated && !isLoading)|| env === "development") &&( <MenuItem
-        onClick={(e) => {
-          e.stopPropagation();
-          logout();
-        }}
-      >
-        Logout
-      </MenuItem>)}
+      {((env === "production" &&
+        !isAuthenticated &&
+        !isLoading) ||
+        env === "development") && (
+        <MenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            loginWithRedirect();
+          }}
+        >
+          Login
+        </MenuItem>
+      )}
+      {((env === "production" &&
+        !!isAuthenticated &&
+        !isLoading) ||
+        env === "development") && (
+        <MenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            logout();
+          }}
+        >
+          Logout
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -198,7 +212,10 @@ export default function PrimarySearchAppBar() {
 
   useEffect(() => {
     console.log({ user, isLoading, isAuthenticated, env });
-  }, [isLoading, user, isAuthenticated, env]);
+
+    isAuthenticated && dispatch(tryTheRequestAndDbAsync());
+    
+  }, [isLoading, user, isAuthenticated, env, dispatch]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
