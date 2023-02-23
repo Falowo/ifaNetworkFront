@@ -1,9 +1,7 @@
 import {
-  AnyAction,
   createAsyncThunk,
   createSlice,
   PayloadAction,
-  ThunkDispatch,
 } from "@reduxjs/toolkit";
 // import { IUser } from "../../interfaces";
 import { AppDispatch, RootState } from "../store";
