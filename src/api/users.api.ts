@@ -4,104 +4,150 @@ import {
   ToUpdateUserInfo,
 } from "../interfaces";
 
-
-
-export const getUserByUserIdQuery = (userId: string) => {
-  return instance().get(`users?userId=${userId}`);
+export const getUserByUserIdQuery = (
+  token: string,
+  userId: string,
+) => {
+  return instance(token).get(`users?userId=${userId}`);
 };
 
 export const getUserByUsernameQuery = (
+  token: string,
   username: string,
 ) => {
-  return instance().get(`users?username=${username}`);
+  return instance(token).get(`users?username=${username}`);
 };
 
 export const getFriendsByUserIdParams = (
+  token: string,
   userId: string,
 ) => {
-  return instance().get(`users/friends/${userId}`);
+  return instance(token).get(`users/friends/${userId}`);
 };
 
 export const getFollowersByUserIdParams = (
+  token: string,
   userId: string,
 ) => {
-  return instance().get(`users/followers/${userId}`);
+  return instance(token).get(`users/followers/${userId}`);
 };
 export const getFollowedUsersByUserIdParams = (
+  token: string,
   userId: string,
 ) => {
-  return instance().get(`users/followedUsers/${userId}`);
+  return instance(token).get(
+    `users/followedUsers/${userId}`,
+  );
 };
 
-export const unfollowUser = (userId: string) => {
-  return instance().put(`users/${userId}/unfollow`, {});
+export const unfollowUser = (
+  token: string,
+  userId: string,
+) => {
+  return instance(token).put(
+    `users/${userId}/unfollow`,
+    {},
+  );
 };
 
-export const followUser = (userId: string) => {
-  return instance().put(`users/${userId}/follow`, {});
+export const followUser = (
+  token: string,
+  userId: string,
+) => {
+  return instance(token).put(`users/${userId}/follow`, {});
 };
-export const addFriend = (userId: string) => {
-  return instance().put(`users/${userId}/addFriend`, {});
+export const addFriend = (
+  token: string,
+  userId: string,
+) => {
+  return instance(token).put(
+    `users/${userId}/addFriend`,
+    {},
+  );
 };
-export const sendFriendRequest = (userId: string) => {
-  return instance().put(
+export const sendFriendRequest = (
+  token: string,
+  userId: string,
+) => {
+  return instance(token).put(
     `users/${userId}/friendRequest`,
     {},
   );
 };
 
 export const searchUsersByUsernamePartParams = (
+  token: string,
   search: string,
 ) => {
-  return instance().get(`users/search/${search}`);
+  return instance(token).get(`users/search/${search}`);
 };
 
-export const getBestCurrentUserFriends = () => {
-  return instance().get(`users/best/currentUser/friends`);
+export const getBestCurrentUserFriends = (
+  token: string,
+) => {
+  return instance(token).get(
+    `users/best/currentUser/friends`,
+  );
 };
 
-export const getFriendRequestsFrom = () => {
-  return instance().get("users/friend/requests/from");
+export const getFriendRequestsFrom = (token: string) => {
+  return instance(token).get("users/friend/requests/from");
 };
 
-export const checkFriendRequests = () => {
-  return instance().put(
+export const checkFriendRequests = (token: string) => {
+  return instance(token).put(
     "users/currentUser/checkFriendRequests",
   );
 };
-export const checkAcceptedFriendRequests = () => {
-  return instance().put(
+export const checkAcceptedFriendRequests = (
+  token: string,
+) => {
+  return instance(token).put(
     "users/currentUser/checkAcceptedFriendRequests",
   );
 };
 
-export const editProfilePicture = (fileName: string) => {
-  return instance().put(
+export const editProfilePicture = (
+  token: string,
+  fileName: string,
+) => {
+  return instance(token).put(
     "users/currentUser/editProfilePicture",
     { fileName },
   );
 };
-export const editCoverPicture = (fileName: string) => {
-  return instance().put(
+export const editCoverPicture = (
+  token: string,
+  fileName: string,
+) => {
+  return instance(token).put(
     "users/currentUser/editCoverPicture",
     { fileName },
   );
 };
 
 export const updateCurrentUserInfo = (
+  token: string,
   toUpdateUserInfo: ToUpdateUserInfo,
 ) => {
-  return instance().put("users/currentUser/updateInfo", {
-    toUpdateUserInfo,
-  });
+  return instance(token).put(
+    "users/currentUser/updateInfo",
+    {
+      toUpdateUserInfo,
+    },
+  );
 };
 
 export const updateCurrentUserDesc = (
+  token: string,
   toUpdateUserDesc: ToUpdateUserDesc,
 ) => {
   console.log(toUpdateUserDesc);
 
-  return instance().put("users/currentUser/updateDesc", {
-    toUpdateUserDesc,
-  });
+  return instance(token).put(
+    "users/currentUser/updateDesc",
+    {
+      toUpdateUserDesc,
+    },
+  );
 };
