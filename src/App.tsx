@@ -24,23 +24,24 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    !isAuthenticated && dispatch(setToken(undefined));
-    !!isAuthenticated &&
-      (async () => {
-        try {
-          const token = await getAccessTokenSilently({
-            authorizationParams: {
-              audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
-              scope: "read:auth", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
-            },
-          });
-          !!token && dispatch(setToken(token));
-        } catch (e) {
-          console.log({e});
-          console.log("autorisation Params for token failed");
+    // !isAuthenticated && dispatch(setToken(undefined));
+    !!isAuthenticated && console.log({ isAuthenticated });
 
-        }
-      })();
+    // (async () => {
+    //   try {
+    //     const token = await getAccessTokenSilently({
+    //       authorizationParams: {
+    //         audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
+    //         // scope: "read:auth", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+    //       },
+    //     });
+    //     !!token && dispatch(setToken(token));
+    //   } catch (e) {
+    //     console.log({e});
+    //     console.log("autorisation Params for token failed");
+
+    //   }
+    // })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated]);
 
   return (
