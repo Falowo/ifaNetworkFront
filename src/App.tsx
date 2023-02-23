@@ -36,8 +36,8 @@ function App() {
           });
           !!token && dispatch(setToken(token));
         } catch (e) {
-          console.error(e);
-          console.error("autorisation Params for token failed");
+          console.log({e});
+          console.log("autorisation Params for token failed");
 
         }
       })();
