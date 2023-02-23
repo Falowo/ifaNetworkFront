@@ -11,7 +11,7 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
-import { setToken } from "./app/slices/authSlice";
+// import { setToken } from "./app/slices/authSlice";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
