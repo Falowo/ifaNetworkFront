@@ -2,29 +2,43 @@ import { instance } from ".";
 import { IPost } from "../interfaces";
 
 export const getPostsByUserNameParams = (
+  token: string,
   username: string,
 ) => {
-  return instance().get(`posts/profile/${username}`);
+  return instance(token).get(`posts/profile/${username}`);
 };
 
-export const getCurrentUserTimelinePosts = () => {
-  return instance().get(`posts/timeline/currentUser`);
+export const getCurrentUserTimelinePosts = (
+  token: string,
+) => {
+  return instance(token).get(`posts/timeline/currentUser`);
 };
 
-export const likePost = (postId: string) => {
-  return instance().put(`posts/${postId}/like`);
+export const likePost = (token: string, postId: string) => {
+  return instance(token).put(`posts/${postId}/like`);
 };
 
-export const createPost = (newPost: IPost) => {
-  return instance().post(`posts`, { ...newPost });
+export const createPost = (
+  token: string,
+  newPost: IPost,
+) => {
+  return instance(token).post(`posts`, { ...newPost });
 };
-export const deletePost = (id: string) => {
-  return instance().delete(`posts/${id}`);
+export const deletePost = (token: string, id: string) => {
+  return instance(token).delete(`posts/${id}`);
 };
-export const updatePost = (updatedPost:IPost) => {
-  return instance().put(`posts/update`, {updatedPost});
+export const updatePost = (
+  token: string,
+  updatedPost: IPost,
+) => {
+  return instance(token).put(`posts/update`, {
+    updatedPost,
+  });
 };
 
-export const uploadFile = (data: FormData) => {
-  return instance().post(`upload`, data);
+export const uploadFile = (
+  token: string,
+  data: FormData,
+) => {
+  return instance(token).post(`upload`, data);
 };

@@ -2,48 +2,60 @@ import { instance } from ".";
 import { IMessage } from "../interfaces";
 
 export const getMessagesByConversationIdParams = (
+  token: string,
   conversationId: string,
 ) => {
-  return instance().get(`messages/${conversationId}`);
+  return instance(token).get(`messages/${conversationId}`);
 };
 export const getLastMessageByConversationIdParams = (
+  token: string,
   conversationId: string,
 ) => {
-  return instance().get(
+  return instance(token).get(
     `messages/lastOneOf/${conversationId}`,
   );
 };
 export const getMessagesArrayFromIds = (
+  token: string,
   messagesIds: string[],
 ) => {
-  return instance().post(`messages/array/fromIds`, {
+  return instance(token).post(`messages/array/fromIds`, {
     messagesIds,
   });
 };
 
-export const createMessage = (message: IMessage) => {
-  return instance().post(`messages/`, message);
+export const createMessage = (
+  token: string,
+  message: IMessage,
+) => {
+  return instance(token).post(`messages/`, message);
 };
-export const messageReceivedByCurrentUser = (props: {
-  messageId: string;
-}) => {
-  return instance().put(
+export const messageReceivedByCurrentUser = (
+  token: string,
+  props: {
+    messageId: string;
+  },
+) => {
+  return instance(token).put(
     `messages/receivedBy/currentUser`,
     props,
   );
 };
-export const messagesCheckedByCurrentUser = (props: {
-  conversationId: string;
-}) => {
-  return instance().put(
+export const messagesCheckedByCurrentUser = (
+  token: string,
+  props: {
+    conversationId: string;
+  },
+) => {
+  return instance(token).put(
     `messages/checkedBy/currentUser`,
     props,
   );
 };
 
 export const getCurrentUserUncheckedMessagesByConversationIdParams =
-  (conversationId: string) => {
-    return instance().get(
+  (token: string, conversationId: string) => {
+    return instance(token).get(
       `messages/unchecked/currentUser/${conversationId}`,
     );
   };

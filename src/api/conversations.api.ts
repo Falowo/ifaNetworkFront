@@ -1,22 +1,32 @@
 import { instance } from ".";
 
 export const getCurrentUserConversations = (
+  token: string,
 ) => {
-  return instance().get(`conversations/allOfUser`);
+  return instance(token).get(`conversations/allOfUser`);
 };
 
-export const getCurrentUserLastConversation = () => {
-  return instance().get(`conversations/last`);
+export const getCurrentUserLastConversation = (
+  token: string,
+) => {
+  return instance(token).get(`conversations/last`);
 };
 
 export const getPrivateConversationByFriendIdParams = (
+  token: string,
   userId: string,
 ) => {
-  return instance().get(`conversations/private/${userId}`);
+  return instance(token).get(
+    `conversations/private/${userId}`,
+  );
 };
 export const createNewConversation = (
+  token: string,
   receiversId: string[],
   groupName?: string,
 ) => {
-  return instance().post(`conversations/`, {receiversId, groupName});
+  return instance(token).post(`conversations/`, {
+    receiversId,
+    groupName,
+  });
 };
