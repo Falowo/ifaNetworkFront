@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
-import {  instance } from ".";
+import { instance } from ".";
 
-
-export const getRequest = (): Promise<AxiosResponse> => {
-  return instance().get("auth/req");
+export const getRequest = (
+  token: string,
+): Promise<AxiosResponse> => {
+  return instance(token).get("auth/req");
 };
-

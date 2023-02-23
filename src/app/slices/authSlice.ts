@@ -1,10 +1,12 @@
 import {
+  AnyAction,
   createAsyncThunk,
   createSlice,
   PayloadAction,
+  ThunkDispatch,
 } from "@reduxjs/toolkit";
 // import { IUser } from "../../interfaces";
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
 import { User } from "@auth0/auth0-react";
 import { getRequest } from "../../api/auth.api";
 import { toast } from "react-toastify";
@@ -35,13 +37,27 @@ const initialState: AuthState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const tryTheRequestAndDbAsync = createAsyncThunk(
+export const tryTheRequestAndDbAsync = createAsyncThunk<
+  any,
+  string,
+  {
+    // dispatch: ThunkDispatch<unknown, unknown, AnyAction>;
+    dispatch: AppDispatch;
+    state: RootState;
+  }
+>(
   "auth/tryTheRequestAndDb",
-  async () => {
-    const response = await getRequest();
-    // The value we return becomes the `fulfilled` action payload
-    const request = response.data;
-    return request;
+  async (anyString, { dispatch, getState }) => {
+
+    console.log(anyString);
+    
+    const token = selectToken(getState());
+    if (!!token) {
+      const response = await getRequest(token);
+      // The value we return becomes the `fulfilled` action payload
+      const request = response.data;
+      return request;
+    } else return null;
   },
 );
 
@@ -64,7 +80,10 @@ export const authSlice = createSlice({
         ? action.payload
         : !state.darkMode;
     },
-    setToken: (state, action: PayloadAction<string>) => {
+    setToken: (
+      state,
+      action: PayloadAction<string | undefined>,
+    ) => {
       state.token = action.payload;
     },
   },
@@ -81,7 +100,7 @@ export const authSlice = createSlice({
           const req = action.payload;
 
           state.isFetching = false;
-          console.log(req);
+          console.log({req});
         },
       )
       .addCase(

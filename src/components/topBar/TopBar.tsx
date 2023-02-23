@@ -16,8 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch } from "../../app/hooks";
-import { tryTheRequestAndDbAsync } from "../../app/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectToken, tryTheRequestAndDbAsync } from "../../app/slices/authSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,7 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const dispatch = useAppDispatch();
-
+  const token = useAppSelector(selectToken)
   const env = process.env.NODE_ENV;
 
   const {
@@ -213,8 +213,9 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     console.log({ user, isLoading, isAuthenticated, env });
 
+    !!isAuthenticated && token && dispatch(tryTheRequestAndDbAsync('string'));
 
-  }, [isLoading, user, isAuthenticated, env, dispatch]);
+  }, [isLoading, user, isAuthenticated, env, dispatch, token]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

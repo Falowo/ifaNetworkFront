@@ -2,9 +2,7 @@ import axios from "axios";
 
 export const url = process.env.REACT_APP_API_URL;
 
-const clientSecret = process.env.REACT_APP_CLIENT_SECRET;
-const clientId = process.env.REACT_APP_CLIENT_ID;
-const audience = process.env.REACT_APP_AUDIENCE;
+
 
 // export const instance = () =>
 //   axios.create({
@@ -19,19 +17,13 @@ const audience = process.env.REACT_APP_AUDIENCE;
 //   baseURL: url,
 //   timeout: 60000,
 // });
-export const instance = () =>
+export const instance = (token:string) =>
   axios.create({
     baseURL: url,
     timeout: 60000,
     headers: {
-      "content-type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
     },
-    data: new URLSearchParams({
-      grant_type: "client_credentials",
-      client_id: clientId!,
-      client_secret: clientSecret!,
-      audience: audience!,
-    }),
   });
 
 // export const authInstance = axios.create({
