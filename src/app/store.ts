@@ -5,9 +5,11 @@ import {
   combineReducers,
 } from "@reduxjs/toolkit";
 import ifaReducer from "./slices/ifaSlice";
+import authReducer from "./slices/authSlice";
 
 export const rootReducer = combineReducers({
   ifa: ifaReducer,
+  auth: authReducer,
 });
 
 export const store = configureStore({
