@@ -11,7 +11,8 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
-// import { setToken } from "./app/slices/authSlice";
+import { setToken } from "./app/slices/authSlice";
+import Callback from "./pages/callback/Callback";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -27,21 +28,21 @@ function App() {
     // !isAuthenticated && dispatch(setToken(undefined));
     !!isAuthenticated && console.log({ isAuthenticated });
 
-    // (async () => {
-    //   try {
-    //     const token = await getAccessTokenSilently({
-    //       authorizationParams: {
-    //         audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
-    //         // scope: "read:auth", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
-    //       },
-    //     });
-    //     !!token && dispatch(setToken(token));
-    //   } catch (e) {
-    //     console.log({e});
-    //     console.log("autorisation Params for token failed");
-
-    //   }
-    // })();
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
+            // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+          },
+        });
+        setToken(token);
+        console.log({ token });
+      } catch (e) {
+        console.log({ e });
+        console.log("autorisation Params for token failed");
+      }
+    })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated]);
 
   return (
@@ -54,10 +55,7 @@ function App() {
         <TopBar />
         <Routes>
           <Route path="/" element={<OponIfa />} />
-          <Route
-            path="/confidential-rules"
-            element={<OponIfa />}
-          />
+          <Route path="/callback" element={<Callback />} />
           <Route path="/*" element={<OponIfa />} />
         </Routes>
       </Container>
