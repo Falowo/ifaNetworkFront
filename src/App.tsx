@@ -37,6 +37,8 @@ function App() {
           !!token && dispatch(setToken(token));
         } catch (e) {
           console.error(e);
+          console.error("autorisation Params for token failed");
+
         }
       })();
   }, [dispatch, getAccessTokenSilently, isAuthenticated]);
