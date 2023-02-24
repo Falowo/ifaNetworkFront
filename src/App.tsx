@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import { useAppDispatch } from "./app/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "./app/hooks";
 import "./App.css";
 import { Container } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
@@ -11,7 +14,11 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
-import { setToken } from "./app/slices/authSlice";
+import {
+  selectToken,
+  setToken,
+  tryTheRequestAndDbAsync,
+} from "./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
 const darkTheme = createTheme({
   palette: {
@@ -27,8 +34,12 @@ function App() {
   } = useAuth0();
   const dispatch = useAppDispatch();
 
+  const accessToken = useAppSelector(selectToken);
+
   useEffect(() => {
-    // !isAuthenticated && dispatch(setToken(undefined));
+    !isAuthenticated &&
+      !isLoading &&
+      dispatch(setToken(undefined));
     !!isAuthenticated && console.log({ isAuthenticated });
 
     const getAccessTokenCallable = async () => {
@@ -50,7 +61,19 @@ function App() {
     !!isAuthenticated &&
       !isLoading &&
       getAccessTokenCallable();
-  }, [dispatch, getAccessTokenSilently, isAuthenticated, isLoading]);
+  }, [
+    dispatch,
+    getAccessTokenSilently,
+    isAuthenticated,
+    isLoading,
+  ]);
+
+  useEffect(() => {
+    !!accessToken &&
+      dispatch(
+        tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
+      );
+  }, [accessToken, dispatch]);
 
   return (
     <ThemeProvider theme={darkTheme}>
