@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import {
-  // useAppDispatch,
-  // useAppSelector,
-} from "./app/hooks";
+import // useAppDispatch,
+// useAppSelector,
+"./app/hooks";
 import "./App.css";
 import { Container } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
@@ -14,11 +13,10 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
-import {
-  // selectToken,
-  // setToken,
-  // tryTheRequestAndDbAsync,
-} from "./app/slices/authSlice";
+import // selectToken,
+// setToken,
+// tryTheRequestAndDbAsync,
+"./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
 // import { getPublicRequest } from "./api/auth.api";
 const darkTheme = createTheme({
@@ -29,32 +27,35 @@ const darkTheme = createTheme({
 
 function App() {
   const {
-    // isAuthenticated,
+    isAuthenticated,
     // isLoading,
     getAccessTokenSilently,
   } = useAuth0();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const token = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: 'https://ifaCity-login/', // Value in Identifier field for the API being called.
-            scope: 'read:posts', // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
-          }
-        });
-        const response = await fetch('https://ifacityserver.onrender.com/api/private/auth/req', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(await response.json());
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, [getAccessTokenSilently]);
-
+    !!isAuthenticated &&
+      (async () => {
+        try {
+          const token = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: "https://ifaCity-login/", // Value in Identifier field for the API being called.
+              scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+            },
+          });
+          const response = await fetch(
+            "https://ifacityserver.onrender.com/api/private/auth/req",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+          console.log(await response.json());
+        } catch (e) {
+          console.error(e);
+        }
+      })();
+  }, [getAccessTokenSilently, isAuthenticated]);
 
   // const dispatch = useAppDispatch();
 
@@ -79,7 +80,7 @@ function App() {
   //       const privateR = await getPublicRequest(token);
   //       const privateD = privateR.data;
   //       console.log({privateD});
-        
+
   //     } catch (e) {
   //       console.log({ e });
   //       console.log("autorisation Params for token failed");
