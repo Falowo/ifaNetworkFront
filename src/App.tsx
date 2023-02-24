@@ -20,6 +20,7 @@ import {
   tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
+import { getPrivateRequest } from "./api/auth.api";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -50,8 +51,12 @@ function App() {
             // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
           },
         });
-        dispatch(setToken(token));
+        // dispatch(setToken(token));
         console.log({ token });
+        const privateR = await getPrivateRequest(token);
+        const privateD = privateR.data;
+        console.log({privateD});
+        
       } catch (e) {
         console.log({ e });
         console.log("autorisation Params for token failed");
@@ -71,10 +76,10 @@ function App() {
   useEffect(() => {
     console.log({ accessToken });
 
-    !!accessToken &&
-      dispatch(
-        tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
-      );
+    // !!accessToken &&
+    //   dispatch(
+    //     tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
+    //   );
   }, [accessToken, dispatch]);
 
   return (
