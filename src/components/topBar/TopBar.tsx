@@ -213,8 +213,6 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     console.log({ user, isLoading, isAuthenticated, env });
 
-    !!isAuthenticated && token && dispatch(tryTheRequestAndDbAsync('string'));
-
   }, [isLoading, user, isAuthenticated, env, dispatch, token]);
 
   return (

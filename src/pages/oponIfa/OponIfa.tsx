@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./oponIfa.css";
 import OponIfaImage from "./square-opon-ifa-black.jpg";
-import { Box, Container } from "@mui/material";
+import {
+  Box,
+  Container,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+} from "@mui/material";
 import * as timeago from "timeago.js";
 
 import {
@@ -118,7 +124,7 @@ export default function OponIfa() {
             }}
             sx={{
               fontSize: "1.5rem",
-            //   fontWeight: "bolder",
+              //   fontWeight: "bolder",
               cursor: "pointer",
               margin: "8px",
               minWidth: "32px",
@@ -133,7 +139,7 @@ export default function OponIfa() {
             }}
             sx={{
               fontSize: "1.5rem",
-            //   fontWeight: "bolder",
+              //   fontWeight: "bolder",
               cursor: "pointer",
               margin: "8px",
               minWidth: "32px",
@@ -153,7 +159,7 @@ export default function OponIfa() {
             }}
             sx={{
               fontSize: "1.5rem",
-            //   fontWeight: "bolder",
+              //   fontWeight: "bolder",
               cursor: "pointer",
               margin: "8px",
               minWidth: "32px",
@@ -170,7 +176,6 @@ export default function OponIfa() {
             alignItems: "center",
           }}
         >
-       
           {
             <>
               {((!isAsking &&
@@ -249,12 +254,22 @@ export default function OponIfa() {
             src={OponIfaImage}
             alt="Opon Ifa"
           />
-          <Box
-            className="boxOponIfaMods"
-          >
+          <Box className="boxOponIfaMods">
             {!isAsking ? <IsNotAsking /> : <IsAsking />}
           </Box>
         </div>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isAsking}
+                onChange={() => setIsAsking(!isAsking)}
+                aria-label="isAsking switch"
+              />
+            }
+            label={isAsking ? "?" : "1"}
+          />
+        </FormGroup>
       </>
     </Container>
   );

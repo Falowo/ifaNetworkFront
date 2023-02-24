@@ -6,7 +6,10 @@ import {
 // import { IUser } from "../../interfaces";
 import { AppDispatch, RootState } from "../store";
 import { User } from "@auth0/auth0-react";
-import { getRequest } from "../../api/auth.api";
+import {
+  getPublicRequest,
+  getPrivateRequest,
+} from "../../api/auth.api";
 import { toast } from "react-toastify";
 // import { AxiosResponse } from "axios";
 
@@ -46,15 +49,21 @@ export const tryTheRequestAndDbAsync = createAsyncThunk<
 >(
   "auth/tryTheRequestAndDb",
   async (anyString, { dispatch, getState }) => {
-
     console.log(anyString);
-    
+
     const token = selectToken(getState());
+    console.log(token);
+
     if (!!token) {
-      const response = await getRequest(token);
-      // The value we return becomes the `fulfilled` action payload
-      const request = response.data;
-      return request;
+      const privateResponse = await getPrivateRequest(
+        token,
+      );
+      const privateRequestData = privateResponse.data;
+
+      const publicResponse = await getPublicRequest(token);
+      const publicRequestData = publicResponse.data;
+
+      return { privateRequestData, publicRequestData };
     } else return null;
   },
 );
@@ -98,7 +107,7 @@ export const authSlice = createSlice({
           const req = action.payload;
 
           state.isFetching = false;
-          console.log({req});
+          console.log({ req });
         },
       )
       .addCase(
