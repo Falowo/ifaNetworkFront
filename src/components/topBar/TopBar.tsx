@@ -17,7 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectToken, tryTheRequestAndDbAsync } from "../../app/slices/authSlice";
+import { selectToken } from "../../app/slices/authSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
