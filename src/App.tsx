@@ -17,7 +17,7 @@ import TopBar from "./components/topBar/TopBar";
 import {
   selectToken,
   setToken,
-  tryTheRequestAndDbAsync,
+  // tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
 import { getPrivateRequest } from "./api/auth.api";
