@@ -69,6 +69,8 @@ function App() {
   ]);
 
   useEffect(() => {
+    console.log({accessToken});
+    
     !!accessToken &&
       dispatch(
         tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
