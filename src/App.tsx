@@ -20,15 +20,18 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const { isAuthenticated, getAccessTokenSilently } =
-    useAuth0();
+  const {
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     // !isAuthenticated && dispatch(setToken(undefined));
     !!isAuthenticated && console.log({ isAuthenticated });
 
-    !!isAuthenticated && (async () => {
+    const getAccessTokenCallable = async () => {
       try {
         const token = await getAccessTokenSilently({
           authorizationParams: {
@@ -42,8 +45,12 @@ function App() {
         console.log({ e });
         console.log("autorisation Params for token failed");
       }
-    })();
-  }, [dispatch, getAccessTokenSilently, isAuthenticated]);
+    };
+
+    !!isAuthenticated &&
+      !isLoading &&
+      getAccessTokenCallable();
+  }, [dispatch, getAccessTokenSilently, isAuthenticated, isLoading]);
 
   return (
     <ThemeProvider theme={darkTheme}>
