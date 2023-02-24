@@ -50,7 +50,7 @@ function App() {
             // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
           },
         });
-        setToken(token);
+        dispatch(setToken(token));
         console.log({ token });
       } catch (e) {
         console.log({ e });
@@ -69,8 +69,8 @@ function App() {
   ]);
 
   useEffect(() => {
-    console.log({accessToken});
-    
+    console.log({ accessToken });
+
     !!accessToken &&
       dispatch(
         tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
