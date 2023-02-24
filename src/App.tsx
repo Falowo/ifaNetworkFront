@@ -28,7 +28,7 @@ function App() {
     // !isAuthenticated && dispatch(setToken(undefined));
     !!isAuthenticated && console.log({ isAuthenticated });
 
-    (async () => {
+    !!isAuthenticated && (async () => {
       try {
         const token = await getAccessTokenSilently({
           authorizationParams: {
