@@ -23,7 +23,7 @@ export const instance = (token: string) =>
       authorization: `Bearer ${token}`,
       "cache-control": "no-cache",
     },
-    data: { grant_types: "authorization_code" },
+    data: { grant_types: "refresh_token" },
   });
 
 
