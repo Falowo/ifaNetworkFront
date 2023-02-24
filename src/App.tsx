@@ -20,7 +20,7 @@ import {
   // tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
-import { getPrivateRequest } from "./api/auth.api";
+import { getPublicRequest } from "./api/auth.api";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -53,7 +53,7 @@ function App() {
         });
         // dispatch(setToken(token));
         console.log({ token });
-        const privateR = await getPrivateRequest(token);
+        const privateR = await getPublicRequest(token);
         const privateD = privateR.data;
         console.log({privateD});
         
