@@ -15,12 +15,12 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
 import {
-  selectToken,
-  setToken,
+  // selectToken,
+  // setToken,
   // tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
-import { getPublicRequest } from "./api/auth.api";
+// import { getPublicRequest } from "./api/auth.api";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -29,58 +29,81 @@ const darkTheme = createTheme({
 
 function App() {
   const {
-    isAuthenticated,
-    isLoading,
+    // isAuthenticated,
+    // isLoading,
     getAccessTokenSilently,
   } = useAuth0();
-  const dispatch = useAppDispatch();
-
-  const accessToken = useAppSelector(selectToken);
 
   useEffect(() => {
-    !isAuthenticated &&
-      !isLoading &&
-      dispatch(setToken(undefined));
-    !!isAuthenticated && console.log({ isAuthenticated });
-
-    const getAccessTokenCallable = async () => {
+    (async () => {
       try {
         const token = await getAccessTokenSilently({
           authorizationParams: {
-            audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
-            // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+            audience: 'https://ifaCity-login/', // Value in Identifier field for the API being called.
+            scope: 'read:posts', // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+          }
+        });
+        const response = await fetch('https://ifacityserver.onrender.com/api/private/auth/req', {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         });
-        // dispatch(setToken(token));
-        console.log({ token });
-        const privateR = await getPublicRequest(token);
-        const privateD = privateR.data;
-        console.log({privateD});
-        
+        console.log(await response.json());
       } catch (e) {
-        console.log({ e });
-        console.log("autorisation Params for token failed");
+        console.error(e);
       }
-    };
+    })();
+  }, [getAccessTokenSilently]);
 
-    !!isAuthenticated &&
-      !isLoading &&
-      getAccessTokenCallable();
-  }, [
-    dispatch,
-    getAccessTokenSilently,
-    isAuthenticated,
-    isLoading,
-  ]);
 
-  useEffect(() => {
-    console.log({ accessToken });
+  // const dispatch = useAppDispatch();
 
-    // !!accessToken &&
-    //   dispatch(
-    //     tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
-    //   );
-  }, [accessToken, dispatch]);
+  // const accessToken = useAppSelector(selectToken);
+
+  // useEffect(() => {
+  //   !isAuthenticated &&
+  //     !isLoading &&
+  //     dispatch(setToken(undefined));
+  //   !!isAuthenticated && console.log({ isAuthenticated });
+
+  //   const getAccessTokenCallable = async () => {
+  //     try {
+  //       const token = await getAccessTokenSilently({
+  //         authorizationParams: {
+  //           audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
+  //           // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+  //         },
+  //       });
+  //       // dispatch(setToken(token));
+  //       console.log({ token });
+  //       const privateR = await getPublicRequest(token);
+  //       const privateD = privateR.data;
+  //       console.log({privateD});
+        
+  //     } catch (e) {
+  //       console.log({ e });
+  //       console.log("autorisation Params for token failed");
+  //     }
+  //   };
+
+  //   !!isAuthenticated &&
+  //     !isLoading &&
+  //     getAccessTokenCallable();
+  // }, [
+  //   dispatch,
+  //   getAccessTokenSilently,
+  //   isAuthenticated,
+  //   isLoading,
+  // ]);
+
+  // useEffect(() => {
+  //   console.log({ accessToken });
+
+  //   // !!accessToken &&
+  //   //   dispatch(
+  //   //     tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
+  //   //   );
+  // }, [accessToken, dispatch]);
 
   return (
     <ThemeProvider theme={darkTheme}>

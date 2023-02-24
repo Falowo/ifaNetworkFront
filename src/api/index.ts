@@ -19,11 +19,9 @@ export const instance = (token: string) =>
   axios.create({
     baseURL: url,
     headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${token}`,
-      "cache-control": "no-cache",
+      Authorization: `Bearer ${token}`,
     },
-    data: { grant_types: "refresh_token" },
+    data: { grant_types: "authorization_code" },
   });
 
 
