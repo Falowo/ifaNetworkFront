@@ -36,13 +36,17 @@ function App() {
     !!isAuthenticated &&
       (async () => {
         try {
+          const audience =
+            process.env.REACT_APP_API_AUDIENCE;
+          console.log(audience);
+
           const token = await getAccessTokenSilently({
             authorizationParams: {
-              audience: process.env.REACT_APP_API_AUDIENCE, // Value in Identifier field for the API being called.
-              // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
+              audience, // Value in Identifier field for the API being called.
+              scope: undefined, // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
             },
           });
-          
+
           // const response = await fetch(
           //   `${process.env.REACT_APP_API_URL}private/auth/req`,
           //   {
