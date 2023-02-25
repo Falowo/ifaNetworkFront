@@ -42,7 +42,7 @@ function App() {
 
           const token = await getAccessTokenSilently({
             authorizationParams: {
-              audience, // Value in Identifier field for the API being called.
+              audience: audience, // Value in Identifier field for the API being called.
             },
           });
 
@@ -57,7 +57,8 @@ function App() {
           // // console.log(await response.json());
           console.log(token);
         } catch (e) {
-          console.error({e});
+
+          console.error({ e });
         }
       })();
   }, [getAccessTokenSilently, isAuthenticated]);
