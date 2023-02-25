@@ -42,15 +42,17 @@ function App() {
               // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
             },
           });
-          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}private/auth/req`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
-          console.log(await response.json());
+          
+          // const response = await fetch(
+          //   `${process.env.REACT_APP_API_URL}private/auth/req`,
+          //   {
+          //     headers: {
+          //       Authorization: `Bearer ${token}`,
+          //     },
+          //   },
+          // );
+          // // console.log(await response.json());
+          console.log(token);
         } catch (e) {
           console.error(e);
         }
