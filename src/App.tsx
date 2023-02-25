@@ -47,16 +47,19 @@ function App() {
             },
           });
 
-          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}private/auth/req`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
-          console.log(await response.json());
+          // const response = await fetch(
+          //   `${process.env.REACT_APP_API_URL}private/auth/req`,
+          //   {
+          //     headers: {
+          //       Authorization: `Bearer ${token}`,
+          //     },
+          //   },
+          // );
+          // console.log(await response.json());
           console.log(token);
+          console.log({
+            url: `${process.env.REACT_APP_API_URL}private/auth/req`,
+          });
         } catch (e) {
           console.error({ e });
         }
