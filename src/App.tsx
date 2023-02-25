@@ -43,7 +43,6 @@ function App() {
           const token = await getAccessTokenSilently({
             authorizationParams: {
               audience, // Value in Identifier field for the API being called.
-              scope: undefined, // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
             },
           });
 
@@ -58,7 +57,7 @@ function App() {
           // // console.log(await response.json());
           console.log(token);
         } catch (e) {
-          console.error(e);
+          console.error({e});
         }
       })();
   }, [getAccessTokenSilently, isAuthenticated]);
