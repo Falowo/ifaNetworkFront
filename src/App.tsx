@@ -38,12 +38,12 @@ function App() {
         try {
           const token = await getAccessTokenSilently({
             authorizationParams: {
-              audience: "https://ifaCity-login/", // Value in Identifier field for the API being called.
+              audience: process.env.REACT_APP_API_AUDIENCE, // Value in Identifier field for the API being called.
               // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
             },
           });
           const response = await fetch(
-            "https://ifacityserver.onrender.com/api/private/auth/req",
+            `${process.env.REACT_APP_API_URL}private/auth/req`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
