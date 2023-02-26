@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./oponIfa.css";
 import OponIfaImage from "./square-opon-ifa-black.jpg";
 import {
@@ -55,6 +55,84 @@ export default function OponIfa() {
     selectQuestionHistory,
   );
   let currentOdu = oduHistory[indexCurrentOdu];
+  const [
+    colorSkipNextCommand,
+    setSkipNextColorCommand,
+  ] = useState<string>("white");
+  const [
+    colorSkipPreviousCommand,
+    setSkipPreviousColorCommand,
+  ] = useState<string>("white");
+
+  const skipPreviousOnClick = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+    if (
+      !!isAsking &&
+      indexCurrentQuestion !== questionHistory.length - 1
+    ) {
+      dispatch(incrementIndexCurrentQuestion());
+    } else if (
+      !isAsking &&
+      indexCurrentOdu !== oduHistory.length - 1
+    ) {
+      dispatch(incrementIndexCurrentOdu());
+    } else {
+      console.log("lastSSp");
+    }
+  };
+  const skipNextOnClick = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+    if (!!isAsking && indexCurrentQuestion === 0) {
+      dispatch(decrementIndexCurrentQuestion());
+    } else if (
+      !isAsking &&
+      indexCurrentOdu !== oduHistory.length - 1
+    ) {
+      dispatch(decrementIndexCurrentOdu());
+    } else {
+      console.log("lastSF");
+    }
+  };
+
+  useEffect(() => {
+    if (!isAsking) {
+      if (indexCurrentOdu === 0) {
+        setSkipNextColorCommand("gray");
+      } else if (
+        indexCurrentOdu ===
+        oduHistory.length - 1
+      ) {
+        setSkipPreviousColorCommand("gray");
+      } else {
+        setSkipNextColorCommand("white");
+        setSkipPreviousColorCommand("white");
+      }
+    }
+    if (!!isAsking) {
+      if (indexCurrentQuestion === 0) {
+        setSkipNextColorCommand("gray");
+      } else if (
+        indexCurrentQuestion ===
+        questionHistory.length - 1
+      ) {
+        setSkipPreviousColorCommand("gray");
+      } else {
+        setSkipNextColorCommand("white");
+        setSkipPreviousColorCommand("white");
+      }
+    }
+  }, [
+    indexCurrentOdu,
+    indexCurrentQuestion,
+    isAsking,
+    oduHistory.length,
+    questionHistory.length,
+  ]);
+
   return (
     <Container
       maxWidth="lg"
@@ -184,16 +262,7 @@ export default function OponIfa() {
                   indexCurrentQuestion <
                     questionHistory.length - 1)) && (
                 <SkipPrevious
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!!isAsking) {
-                      dispatch(
-                        incrementIndexCurrentQuestion(),
-                      );
-                    } else {
-                      dispatch(incrementIndexCurrentOdu());
-                    }
-                  }}
+                  onClick={(e) => skipPreviousOnClick(e)}
                   sx={{
                     fontSize: "1.5rem",
                     // fontWeight: "bolder",
@@ -201,6 +270,7 @@ export default function OponIfa() {
                     margin: "8px",
                     minWidth: "32px",
                     minHeight: "32px",
+                    color: { colorSkipPreviousCommand },
                   }}
                 />
               )}
@@ -211,16 +281,7 @@ export default function OponIfa() {
                   !!questionHistory.length &&
                   indexCurrentQuestion !== 0)) && (
                 <SkipNext
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!!isAsking) {
-                      dispatch(
-                        decrementIndexCurrentQuestion(),
-                      );
-                    } else {
-                      dispatch(decrementIndexCurrentOdu());
-                    }
-                  }}
+                  onClick={(e) => skipNextOnClick(e)}
                   sx={{
                     fontSize: "1.5rem",
                     // fontWeight: "bolder",
@@ -228,6 +289,7 @@ export default function OponIfa() {
                     margin: "8px",
                     minWidth: "32px",
                     minHeight: "32px",
+                    color:{colorSkipNextCommand}
                   }}
                 />
               )}

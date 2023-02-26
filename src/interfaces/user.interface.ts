@@ -7,7 +7,7 @@ export enum Relationship {
 export interface IUser {
   token?: string;
   _id?: string;
-  username: string;
+  username?: string;
   email?: string;
   password?: string;
   profilePicture?: string;

@@ -15,6 +15,7 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
 import {
+  getOrCreateUserDBAsync,
   selectToken,
   setToken,
   // tryTheRequestAndDbAsync,
@@ -29,6 +30,7 @@ const darkTheme = createTheme({
 
 function App() {
   const {
+    user,
     isAuthenticated,
     // isLoading,
     getAccessTokenSilently,
@@ -52,72 +54,20 @@ function App() {
             },
           });
 
-          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}private/auth/req`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          );
-          console.log(response);
-          console.log(token);
           dispatch(setToken(token));
+          !!user && dispatch(getOrCreateUserDBAsync(user));
           console.log({ accessToken });
-
-          console.log({
-            url: `${process.env.REACT_APP_API_URL}private/auth/req`,
-          });
         } catch (e) {
           console.error({ e });
         }
       })();
-  }, [accessToken, dispatch, getAccessTokenSilently, isAuthenticated]);
-
-  // useEffect(() => {
-  //   !isAuthenticated &&
-  //     !isLoading &&
-  //     dispatch(setToken(undefined));
-  //   !!isAuthenticated && console.log({ isAuthenticated });
-
-  //   const getAccessTokenCallable = async () => {
-  //     try {
-  //       const token = await getAccessTokenSilently({
-  //         authorizationParams: {
-  //           audience: process.env.REACT_APP_AUDIENCE, // Value in Identifier field for the API being called.
-  //           // scope: "read:posts", // Scope that exists for the API being called. You can create these through the Auth0 Management API or through the Auth0 Dashboard in the Permissions view of your API.
-  //         },
-  //       });
-  //       // dispatch(setToken(token));
-  //       console.log({ token });
-  //       const privateR = await getPublicRequest(token);
-  //       const privateD = privateR.data;
-  //       console.log({privateD});
-
-  //     } catch (e) {
-  //       console.log({ e });
-  //       console.log("autorisation Params for token failed");
-  //     }
-  //   };
-
-  //   !!isAuthenticated &&
-  //     !isLoading &&
-  //     getAccessTokenCallable();
-  // }, [
-  //   dispatch,
-  //   getAccessTokenSilently,
-  //   isAuthenticated,
-  //   isLoading,
-  // ]);
-
-  // useEffect(() => {
-  //   console.log({ accessToken });
-
-  //   // !!accessToken &&
-  //   //   dispatch(
-  //   //     tryTheRequestAndDbAsync("tryTheRequestAndDbAsync"),
-  //   //   );
-  // }, [accessToken, dispatch]);
+  }, [
+    accessToken,
+    dispatch,
+    getAccessTokenSilently,
+    isAuthenticated,
+    user,
+  ]);
 
   return (
     <ThemeProvider theme={darkTheme}>

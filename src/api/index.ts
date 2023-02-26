@@ -24,7 +24,10 @@ export const instance = (token: string) =>
     data: { grant_types: "authorization_code" },
   });
 
-
+export const publicInstance = () =>
+  axios.create({
+    baseURL: url,
+  });
 
 // export const authInstance = axios.create({
 //   baseURL: url,
