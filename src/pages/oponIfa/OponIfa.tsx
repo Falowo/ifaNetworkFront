@@ -56,11 +56,33 @@ export default function OponIfa() {
   );
   let currentOdu = oduHistory[indexCurrentOdu];
   const [colorSkipNextCommand, setSkipNextColorCommand] =
-    useState<"disabled" | "action" | "inherit" | "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined>("primary");
+    useState<
+      | "disabled"
+      | "action"
+      | "inherit"
+      | "error"
+      | "primary"
+      | "secondary"
+      | "info"
+      | "success"
+      | "warning"
+      | undefined
+    >("primary");
   const [
     colorSkipPreviousCommand,
     setSkipPreviousColorCommand,
-  ] = useState<"disabled" | "action" | "inherit" | "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined>("primary");
+  ] = useState<
+    | "disabled"
+    | "action"
+    | "inherit"
+    | "error"
+    | "primary"
+    | "secondary"
+    | "info"
+    | "success"
+    | "warning"
+    | undefined
+  >("primary");
 
   const skipPreviousOnClick = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -86,10 +108,7 @@ export default function OponIfa() {
     e.stopPropagation();
     if (!!isAsking && indexCurrentQuestion !== 0) {
       dispatch(decrementIndexCurrentQuestion());
-    } else if (
-      !isAsking &&
-      indexCurrentOdu !== 0
-    ) {
+    } else if (!isAsking && indexCurrentOdu !== 0) {
       dispatch(decrementIndexCurrentOdu());
     } else {
       console.log("lastSF");
@@ -194,7 +213,12 @@ export default function OponIfa() {
       >
         {!isAsking ? (
           <QuestionMark
-            onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+            onClick={(
+              e: React.MouseEvent<
+                SVGSVGElement,
+                MouseEvent
+              >,
+            ) => {
               e.stopPropagation();
               setIsAsking(true);
             }}
@@ -209,7 +233,12 @@ export default function OponIfa() {
           />
         ) : (
           <MeetingRoom
-            onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+            onClick={(
+              e: React.MouseEvent<
+                SVGSVGElement,
+                MouseEvent
+              >,
+            ) => {
               e.stopPropagation();
               setIsAsking(false);
             }}
@@ -225,7 +254,12 @@ export default function OponIfa() {
         )}
         {
           <PlayArrow
-            onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+            onClick={(
+              e: React.MouseEvent<
+                SVGSVGElement,
+                MouseEvent
+              >,
+            ) => {
               e.stopPropagation();
               if (!isAsking) {
                 dispatch(castOdu());
@@ -255,7 +289,12 @@ export default function OponIfa() {
           {
             <>
               <SkipPrevious
-                onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => skipPreviousOnClick(e)}
+                onClick={(
+                  e: React.MouseEvent<
+                    SVGSVGElement,
+                    MouseEvent
+                  >,
+                ) => skipPreviousOnClick(e)}
                 sx={{
                   fontSize: "1.5rem",
                   // fontWeight: "bolder",
@@ -264,11 +303,16 @@ export default function OponIfa() {
                   minWidth: "32px",
                   minHeight: "32px",
                 }}
-                color= { colorSkipPreviousCommand }
+                color={colorSkipPreviousCommand}
               />
 
               <SkipNext
-                onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => skipNextOnClick(e)}
+                onClick={(
+                  e: React.MouseEvent<
+                    SVGSVGElement,
+                    MouseEvent
+                  >,
+                ) => skipNextOnClick(e)}
                 sx={{
                   fontSize: "1.5rem",
                   // fontWeight: "bolder",
@@ -276,8 +320,8 @@ export default function OponIfa() {
                   margin: "8px",
                   minWidth: "32px",
                   minHeight: "32px",
-                  color: { colorSkipNextCommand },
                 }}
+                color={colorSkipNextCommand}
               />
             </>
           }
