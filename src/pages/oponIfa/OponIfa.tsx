@@ -55,10 +55,8 @@ export default function OponIfa() {
     selectQuestionHistory,
   );
   let currentOdu = oduHistory[indexCurrentOdu];
-  const [
-    colorSkipNextCommand,
-    setSkipNextColorCommand,
-  ] = useState<string>("white");
+  const [colorSkipNextCommand, setSkipNextColorCommand] =
+    useState<string>("white");
   const [
     colorSkipPreviousCommand,
     setSkipPreviousColorCommand,
@@ -256,43 +254,31 @@ export default function OponIfa() {
         >
           {
             <>
-              {((!isAsking &&
-                indexCurrentOdu < oduHistory.length - 1) ||
-                (!!isAsking &&
-                  indexCurrentQuestion <
-                    questionHistory.length - 1)) && (
-                <SkipPrevious
-                  onClick={(e) => skipPreviousOnClick(e)}
-                  sx={{
-                    fontSize: "1.5rem",
-                    // fontWeight: "bolder",
-                    cursor: "pointer",
-                    margin: "8px",
-                    minWidth: "32px",
-                    minHeight: "32px",
-                    color: { colorSkipPreviousCommand },
-                  }}
-                />
-              )}
-              {((!isAsking &&
-                !!oduHistory.length &&
-                indexCurrentOdu !== 0) ||
-                (!!isAsking &&
-                  !!questionHistory.length &&
-                  indexCurrentQuestion !== 0)) && (
-                <SkipNext
-                  onClick={(e) => skipNextOnClick(e)}
-                  sx={{
-                    fontSize: "1.5rem",
-                    // fontWeight: "bolder",
-                    cursor: "pointer",
-                    margin: "8px",
-                    minWidth: "32px",
-                    minHeight: "32px",
-                    color:{colorSkipNextCommand}
-                  }}
-                />
-              )}
+              <SkipPrevious
+                onClick={(e) => skipPreviousOnClick(e)}
+                sx={{
+                  fontSize: "1.5rem",
+                  // fontWeight: "bolder",
+                  cursor: "pointer",
+                  margin: "8px",
+                  minWidth: "32px",
+                  minHeight: "32px",
+                  color: { colorSkipPreviousCommand },
+                }}
+              />
+
+              <SkipNext
+                onClick={(e) => skipNextOnClick(e)}
+                sx={{
+                  fontSize: "1.5rem",
+                  // fontWeight: "bolder",
+                  cursor: "pointer",
+                  margin: "8px",
+                  minWidth: "32px",
+                  minHeight: "32px",
+                  color: { colorSkipNextCommand },
+                }}
+              />
             </>
           }
         </div>
