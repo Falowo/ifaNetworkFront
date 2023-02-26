@@ -449,7 +449,7 @@ export const ifaSlice = createSlice({
     },
     decrementIndexCurrentQuestion: (state) => {
       if (state.indexCurrentQuestion > 0) {
-        state.indexCurrentQuestion += -1;
+        state.indexCurrentQuestion -= 1;
       }
     },
     modifyCurrentOdu: (

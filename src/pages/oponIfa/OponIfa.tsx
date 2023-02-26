@@ -84,11 +84,11 @@ export default function OponIfa() {
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
   ) => {
     e.stopPropagation();
-    if (!!isAsking && indexCurrentQuestion === 0) {
+    if (!!isAsking && indexCurrentQuestion !== 0) {
       dispatch(decrementIndexCurrentQuestion());
     } else if (
       !isAsking &&
-      indexCurrentOdu !== oduHistory.length - 1
+      indexCurrentOdu !== 0
     ) {
       dispatch(decrementIndexCurrentOdu());
     } else {
