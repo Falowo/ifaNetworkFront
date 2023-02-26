@@ -106,7 +106,7 @@ export default function OponIfa() {
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
   ) => {
     e.stopPropagation();
-    if (!!isAsking && indexCurrentQuestion !== 0) {
+    if (!!isAsking && indexCurrentQuestion !== 0 ) {
       dispatch(decrementIndexCurrentQuestion());
     } else if (!isAsking && indexCurrentOdu !== 0) {
       dispatch(decrementIndexCurrentOdu());
@@ -117,7 +117,10 @@ export default function OponIfa() {
 
   useEffect(() => {
     if (!isAsking) {
-      if (indexCurrentOdu === 0) {
+      if (
+        indexCurrentOdu === 0 ||
+        oduHistory.length === 0
+      ) {
         setSkipNextColorCommand("disabled");
       } else if (
         indexCurrentOdu ===
@@ -130,7 +133,10 @@ export default function OponIfa() {
       }
     }
     if (!!isAsking) {
-      if (indexCurrentQuestion === 0) {
+      if (
+        indexCurrentQuestion === 0 ||
+        questionHistory.length === 0
+      ) {
         setSkipNextColorCommand("disabled");
       } else if (
         indexCurrentQuestion ===
