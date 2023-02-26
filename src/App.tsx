@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import // useAppDispatch,
-// useAppSelector,
-"./app/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "./app/hooks";
 import "./App.css";
 import { Container } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
@@ -13,10 +14,11 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
-import // selectToken,
-// setToken,
-// tryTheRequestAndDbAsync,
-"./app/slices/authSlice";
+import {
+  selectToken,
+  setToken,
+  // tryTheRequestAndDbAsync,
+} from "./app/slices/authSlice";
 import Callback from "./pages/callback/Callback";
 // import { getPublicRequest } from "./api/auth.api";
 const darkTheme = createTheme({
@@ -31,6 +33,9 @@ function App() {
     // isLoading,
     getAccessTokenSilently,
   } = useAuth0();
+  const dispatch = useAppDispatch();
+
+  const accessToken = useAppSelector(selectToken);
 
   useEffect(() => {
     !!isAuthenticated &&
@@ -55,8 +60,11 @@ function App() {
               },
             },
           );
-          console.log({response});
+          console.log(response);
           console.log(token);
+          dispatch(setToken(token));
+          console.log({ accessToken });
+
           console.log({
             url: `${process.env.REACT_APP_API_URL}private/auth/req`,
           });
@@ -64,11 +72,7 @@ function App() {
           console.error({ e });
         }
       })();
-  }, [getAccessTokenSilently, isAuthenticated]);
-
-  // const dispatch = useAppDispatch();
-
-  // const accessToken = useAppSelector(selectToken);
+  }, [accessToken, dispatch, getAccessTokenSilently, isAuthenticated]);
 
   // useEffect(() => {
   //   !isAuthenticated &&
