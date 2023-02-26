@@ -56,11 +56,11 @@ export default function OponIfa() {
   );
   let currentOdu = oduHistory[indexCurrentOdu];
   const [colorSkipNextCommand, setSkipNextColorCommand] =
-    useState<string>("primary");
+    useState<"disabled" | "action" | "inherit" | "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined>("primary");
   const [
     colorSkipPreviousCommand,
     setSkipPreviousColorCommand,
-  ] = useState<string>("primary");
+  ] = useState<"disabled" | "action" | "inherit" | "error" | "primary" | "secondary" | "info" | "success" | "warning" | undefined>("primary");
 
   const skipPreviousOnClick = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -194,7 +194,7 @@ export default function OponIfa() {
       >
         {!isAsking ? (
           <QuestionMark
-            onClick={(e) => {
+            onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
               e.stopPropagation();
               setIsAsking(true);
             }}
@@ -209,7 +209,7 @@ export default function OponIfa() {
           />
         ) : (
           <MeetingRoom
-            onClick={(e) => {
+            onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
               e.stopPropagation();
               setIsAsking(false);
             }}
@@ -225,7 +225,7 @@ export default function OponIfa() {
         )}
         {
           <PlayArrow
-            onClick={(e) => {
+            onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => {
               e.stopPropagation();
               if (!isAsking) {
                 dispatch(castOdu());
@@ -255,7 +255,7 @@ export default function OponIfa() {
           {
             <>
               <SkipPrevious
-                onClick={(e) => skipPreviousOnClick(e)}
+                onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => skipPreviousOnClick(e)}
                 sx={{
                   fontSize: "1.5rem",
                   // fontWeight: "bolder",
@@ -268,7 +268,7 @@ export default function OponIfa() {
               />
 
               <SkipNext
-                onClick={(e) => skipNextOnClick(e)}
+                onClick={(e:React.MouseEvent<SVGSVGElement, MouseEvent>) => skipNextOnClick(e)}
                 sx={{
                   fontSize: "1.5rem",
                   // fontWeight: "bolder",
