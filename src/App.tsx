@@ -55,7 +55,7 @@ function App() {
               },
             },
           );
-          console.log(await response.json());
+          console.log({response});
           console.log(token);
           console.log({
             url: `${process.env.REACT_APP_API_URL}private/auth/req`,
