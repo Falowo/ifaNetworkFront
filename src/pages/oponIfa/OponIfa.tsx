@@ -56,11 +56,11 @@ export default function OponIfa() {
   );
   let currentOdu = oduHistory[indexCurrentOdu];
   const [colorSkipNextCommand, setSkipNextColorCommand] =
-    useState<string>("white");
+    useState<string>("primary");
   const [
     colorSkipPreviousCommand,
     setSkipPreviousColorCommand,
-  ] = useState<string>("white");
+  ] = useState<string>("primary");
 
   const skipPreviousOnClick = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -99,28 +99,28 @@ export default function OponIfa() {
   useEffect(() => {
     if (!isAsking) {
       if (indexCurrentOdu === 0) {
-        setSkipNextColorCommand("gray");
+        setSkipNextColorCommand("disabled");
       } else if (
         indexCurrentOdu ===
         oduHistory.length - 1
       ) {
-        setSkipPreviousColorCommand("gray");
+        setSkipPreviousColorCommand("disabled");
       } else {
-        setSkipNextColorCommand("white");
-        setSkipPreviousColorCommand("white");
+        setSkipNextColorCommand("primary");
+        setSkipPreviousColorCommand("primary");
       }
     }
     if (!!isAsking) {
       if (indexCurrentQuestion === 0) {
-        setSkipNextColorCommand("gray");
+        setSkipNextColorCommand("disabled");
       } else if (
         indexCurrentQuestion ===
         questionHistory.length - 1
       ) {
-        setSkipPreviousColorCommand("gray");
+        setSkipPreviousColorCommand("disabled");
       } else {
-        setSkipNextColorCommand("white");
-        setSkipPreviousColorCommand("white");
+        setSkipNextColorCommand("primary");
+        setSkipPreviousColorCommand("primary");
       }
     }
   }, [
@@ -263,8 +263,8 @@ export default function OponIfa() {
                   margin: "8px",
                   minWidth: "32px",
                   minHeight: "32px",
-                  color: { colorSkipPreviousCommand },
                 }}
+                color= { colorSkipPreviousCommand }
               />
 
               <SkipNext
