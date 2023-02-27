@@ -21,6 +21,6 @@ export const getOrCreateCurrentUserSecure = (
 ): Promise<AxiosResponse> => {
   return instance(token).post(
     "private/currentUser/getOrCreate",
-    authUser,
+    { authUser },
   );
 };
