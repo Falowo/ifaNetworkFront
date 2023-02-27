@@ -8,7 +8,10 @@ import { AppDispatch, RootState } from "../store";
 import { User } from "@auth0/auth0-react";
 
 import { toast } from "react-toastify";
-import { getOrCreateCurrentUser } from "../../api/currentUser.api";
+import {
+  getOrCreateCurrentUser,
+  getOrCreateCurrentUserSecure,
+} from "../../api/currentUser.api";
 import { IUser } from "../../interfaces";
 // import { AxiosResponse } from "axios";
 
@@ -48,7 +51,7 @@ export const getOrCreateUserDBAsync = createAsyncThunk<
     state: RootState;
   }
 >(
-  "auth/tryTheRequestAndDb",
+  "auth/getOrCreateUserDBAsync",
   async (authUser, { dispatch, getState }) => {
     const token = selectToken(getState());
     console.log(token);
@@ -63,6 +66,32 @@ export const getOrCreateUserDBAsync = createAsyncThunk<
     } else return null;
   },
 );
+export const getOrCreateUserDBSecureAsync =
+  createAsyncThunk<
+    IUser | null,
+    IUser,
+    {
+      // dispatch: ThunkDispatch<unknown, unknown, AnyAction>;
+      dispatch: AppDispatch;
+      state: RootState;
+    }
+  >(
+    "auth/getOrCreateUserDBSecureAsync",
+    async (authUser, { dispatch, getState }) => {
+      const token = selectToken(getState());
+      console.log(token);
+
+      if (!!token) {
+        const response = await getOrCreateCurrentUserSecure(
+          token,
+          authUser,
+        );
+        const user: IUser = response.data;
+
+        return user;
+      } else return null;
+    },
+  );
 
 export const authSlice = createSlice({
   name: "auth",

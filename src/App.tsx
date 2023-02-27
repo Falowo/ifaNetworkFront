@@ -15,7 +15,7 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
 import {
-  getOrCreateUserDBAsync,
+  getOrCreateUserDBSecureAsync,
   selectToken,
   setToken,
   // tryTheRequestAndDbAsync,
@@ -55,7 +55,8 @@ function App() {
           });
 
           dispatch(setToken(token));
-          !!user && dispatch(getOrCreateUserDBAsync(user));
+          !!user &&
+            dispatch(getOrCreateUserDBSecureAsync(user));
           console.log({ accessToken });
         } catch (e) {
           console.error({ e });
