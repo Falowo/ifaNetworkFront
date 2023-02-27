@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./oponIfa.css";
 import OponIfaImage from "./square-opon-ifa-black.jpg";
 import {
@@ -17,7 +17,6 @@ import {
   SkipNext,
   MeetingRoom,
 } from "@mui/icons-material";
-import { Input } from "@mui/material";
 
 import {
   useAppDispatch,
@@ -44,6 +43,7 @@ export default function OponIfa() {
   const [isAsking, setIsAsking] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   // const currentOdu = useAppSelector(selectCurrentOdu);
+  const inputEl = useRef<HTMLInputElement>(null);
   const indexCurrentOdu = useAppSelector(
     selectIndexCurrentOdu,
   );
@@ -67,7 +67,7 @@ export default function OponIfa() {
       | "success"
       | "warning"
       | undefined
-    >("primary");
+    >(undefined);
   const [
     colorSkipPreviousCommand,
     setSkipPreviousColorCommand,
@@ -82,7 +82,7 @@ export default function OponIfa() {
     | "success"
     | "warning"
     | undefined
-  >("primary");
+  >(undefined);
 
   const skipPreviousOnClick = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -90,12 +90,14 @@ export default function OponIfa() {
     e.stopPropagation();
     if (
       !!isAsking &&
-      indexCurrentQuestion !== questionHistory.length - 1
+      indexCurrentQuestion !== questionHistory.length - 1 &&
+      questionHistory.length > 1
     ) {
       dispatch(incrementIndexCurrentQuestion());
     } else if (
       !isAsking &&
-      indexCurrentOdu !== oduHistory.length - 1
+      indexCurrentOdu !== oduHistory.length - 1 &&
+      oduHistory.length > 1
     ) {
       dispatch(incrementIndexCurrentOdu());
     } else {
@@ -117,32 +119,47 @@ export default function OponIfa() {
 
   useEffect(() => {
     if (!isAsking) {
-      if (indexCurrentOdu === 0 || !oduHistory.length) {
+      if (indexCurrentOdu === 0) {
         setSkipNextColorCommand("disabled");
+        if (oduHistory.length <= 1) {
+          setSkipPreviousColorCommand("disabled");
+        } else {
+          setSkipPreviousColorCommand(undefined);
+        }
       } else if (
         indexCurrentOdu ===
         oduHistory.length - 1
       ) {
         setSkipPreviousColorCommand("disabled");
+        if (indexCurrentOdu !== 0) {
+          setSkipNextColorCommand(undefined);
+        }
       } else {
-        setSkipNextColorCommand("primary");
-        setSkipPreviousColorCommand("primary");
+        setSkipNextColorCommand(undefined);
+        setSkipPreviousColorCommand(undefined);
       }
     }
     if (!!isAsking) {
-      if (
-        indexCurrentQuestion === 0 ||
-        !questionHistory.length 
-      ) {
+      inputEl.current?.focus();
+
+      if (indexCurrentQuestion === 0) {
         setSkipNextColorCommand("disabled");
+        if (questionHistory.length <= 1) {
+          setSkipPreviousColorCommand("disabled");
+        } else {
+          setSkipPreviousColorCommand(undefined);
+        }
       } else if (
         indexCurrentQuestion ===
         questionHistory.length - 1
       ) {
         setSkipPreviousColorCommand("disabled");
+        if (indexCurrentQuestion !== 0) {
+          setSkipNextColorCommand(undefined);
+        }
       } else {
-        setSkipNextColorCommand("primary");
-        setSkipPreviousColorCommand("primary");
+        setSkipNextColorCommand(undefined);
+        setSkipPreviousColorCommand(undefined);
       }
     }
   }, [
@@ -197,12 +214,14 @@ export default function OponIfa() {
           </span>
         </Box>
       ) : (
-        <Input
-          sx={{
-            flexGrow: "1",
-          }}
+        <input
+          style={{ width: "100%", padding: "8px" }}
           autoFocus={true}
           placeholder="Write your binary question or formalize it"
+          ref={inputEl}
+          onChange={() =>
+            console.log(inputEl.current?.value)
+          }
         />
       )}
       <div
@@ -214,17 +233,8 @@ export default function OponIfa() {
           alignItems: "center",
         }}
       >
-        {!isAsking ? (
+        {!!isAsking ? (
           <QuestionMark
-            onClick={(
-              e: React.MouseEvent<
-                SVGSVGElement,
-                MouseEvent
-              >,
-            ) => {
-              e.stopPropagation();
-              setIsAsking(true);
-            }}
             sx={{
               fontSize: "1.5rem",
               //   fontWeight: "bolder",
@@ -232,6 +242,7 @@ export default function OponIfa() {
               margin: "8px",
               minWidth: "32px",
               minHeight: "32px",
+              display: "none",
             }}
           />
         ) : (
@@ -243,7 +254,8 @@ export default function OponIfa() {
               >,
             ) => {
               e.stopPropagation();
-              setIsAsking(false);
+              console.log("go room");
+              
             }}
             sx={{
               fontSize: "1.5rem",
@@ -267,7 +279,16 @@ export default function OponIfa() {
               if (!isAsking) {
                 dispatch(castOdu());
               } else {
-                dispatch(askQuestionAsync({ ibo: true }));
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const question = inputEl.current?.value;
+                console.log({ question });
+
+                dispatch(
+                  askQuestionAsync({ ibo: true, question }),
+                );
+                if (!!inputEl?.current?.value) {
+                  inputEl.current.value = "";
+                }
               }
             }}
             sx={{
@@ -339,7 +360,15 @@ export default function OponIfa() {
             if (!isAsking) {
               dispatch(castOdu());
             } else {
-              dispatch(askQuestionAsync({ ibo: true }));
+              const question = inputEl.current?.value;
+              console.log({ question });
+
+              dispatch(
+                askQuestionAsync({ ibo: true, question }),
+              );
+              if (!!inputEl?.current?.value) {
+                inputEl.current.value = "";
+              }
             }
           }}
           style={{ cursor: "pointer" }}
@@ -353,18 +382,25 @@ export default function OponIfa() {
             {!isAsking ? <IsNotAsking /> : <IsAsking />}
           </Box>
         </div>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isAsking}
-                onChange={() => setIsAsking(!isAsking)}
-                aria-label="isAsking switch"
-              />
-            }
-            label={isAsking ? "?" : "1"}
-          />
-        </FormGroup>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isAsking}
+                  onChange={() => setIsAsking(!isAsking)}
+                  aria-label="isAsking switch"
+                />
+              }
+              label="?"
+            />
+          </FormGroup>
+        </Box>
       </>
     </Container>
   );

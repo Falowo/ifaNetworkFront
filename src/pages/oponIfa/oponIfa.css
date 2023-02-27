@@ -1,6 +1,6 @@
 .oduNameTitle {
   margin: 0px auto !important;
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: bold !important;
 }
 
@@ -38,15 +38,17 @@
   cursor: pointer;
 } */
 
-.markItem {
+/* .markItem {
   text-align: center !important;
   margin: 0px auto !important;
   padding: 0px auto !important;
   font-size: 3rem;
   font-weight: bold !important;
-}
+} */
 
-.markItemIsAsking {
+.markItemIsAsking,
+.mobileMarkItem,
+.markItem {
   text-align: center !important;
   margin: 0px auto !important;
   padding: 0px auto !important;
@@ -91,4 +93,9 @@
   font-weight: bold !important;
   align-self: flex-end;
   padding-right: 3rem;
+}
+
+.switchAsk {
+  font-weight: bolder !important;
+  font-size: 3rem !important;
 }

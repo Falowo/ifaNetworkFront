@@ -13,7 +13,6 @@ import {
   selectOduHistory,
 } from "../../app/slices/ifaSlice";
 // import * as timeago from "timeago.js";
-import { Mediation } from "@mui/icons-material";
 
 export default function IsNotAsking() {
   const dispatch = useAppDispatch();
@@ -48,7 +47,8 @@ export default function IsNotAsking() {
                   <h2
                     key={i}
                     onClick={(e) => {
-                      e.stopPropagation();
+                      window.screen.width >= 1280 &&
+                        e.stopPropagation();
                       const mark: Mark = {
                         legEntry: true,
                         indexOfLeg: i,
@@ -57,10 +57,18 @@ export default function IsNotAsking() {
                         mark,
                         currentOdu,
                       };
-                      indexCurrentOdu === 0 &&
-                        dispatch(modifyCurrentOdu(payload));
+                      if (window.screen.width >= 1280) {
+                        indexCurrentOdu === 0 &&
+                          dispatch(
+                            modifyCurrentOdu(payload),
+                          );
+                      }
                     }}
-                    className="markItem"
+                    className={
+                      window.screen.width >= 1280
+                        ? "markItem"
+                        : "mobileMarkItem"
+                    }
                     style={{
                       textShadow,
                       color: !!oduHistory[indexCurrentOdu]
@@ -94,16 +102,25 @@ export default function IsNotAsking() {
                   <h2
                     key={i}
                     onClick={(e) => {
-                      e.stopPropagation();
+                      window.screen.width >= 1280 &&
+                        e.stopPropagation();
                       const mark: Mark = {
                         legEntry: false,
                         indexOfLeg: i,
                       };
                       const payload = { mark, currentOdu };
-                      indexCurrentOdu === 0 &&
-                        dispatch(modifyCurrentOdu(payload));
+                      if (window.screen.width >= 1280) {
+                        indexCurrentOdu === 0 &&
+                          dispatch(
+                            modifyCurrentOdu(payload),
+                          );
+                      }
                     }}
-                    className="markItem"
+                    className={
+                      window.screen.width >= 1280
+                        ? "markItem"
+                        : "mobileMarkItem"
+                    }
                     style={{
                       textShadow,
                       color: !!oduHistory[indexCurrentOdu]
@@ -129,71 +146,10 @@ export default function IsNotAsking() {
           style={{
             display: "flex",
           }}
-        >
-          {!!oduHistory[indexCurrentOdu] &&
-            oduHistory[indexCurrentOdu].leg0.length === 4 &&
-            oduHistory[indexCurrentOdu].leg1.length ===
-              4 && (
-              <Mediation
-                onClick={(e) => {
-                  e.stopPropagation();
-                  console.log("Mediation");
-                }}
-                sx={{
-                  fontSize: "3rem",
-                  fontWeight: "bolder",
-                  cursor: "pointer",
-                  margin: "16px",
-                  minWidth: "64px",
-                  minHeight: "64px",
-                  alignSelf: "center",
-                }}
-              />
-            )}
-        </Grid>
+        ></Grid>
 
         <Grid item xs={8}></Grid>
-        <Grid item xs={4}>
-          {/* <div className="oduHistoryList">
-            {!!oduHistory &&
-              !!oduHistory?.length &&
-              oduHistory
-                .filter(
-                  (o) =>
-                    oduHistory.indexOf(o) < 8 &&
-                    oduHistory.indexOf(o) !== 0,
-                )
-                .map((o) => {
-                  return (
-                    <>
-                      <li
-                        className="oduHistoryListItems"
-                        key={oduHistory.indexOf(o)}
-                        style={{
-                          color: !!o.randomColor
-                            ? `${"#" + o.randomColor}`
-                            : "white",
-                        }}
-                      >
-                        {!!o?.oduNames?.length &&
-                          o.oduNames[0]}
-                      </li>
-                      <span
-                        className="spanTimeAgo"
-                        style={{
-                          color: !!o.randomColor
-                            ? `${"#" + o.randomColor}`
-                            : "white",
-                        }}
-                      >
-                        {!!o.createdAt &&
-                          timeago.format(o.createdAt)}
-                      </span>
-                    </>
-                  );
-                })}
-          </div> */}
-        </Grid>
+        <Grid item xs={4}></Grid>
       </Grid>
     </div>
   );

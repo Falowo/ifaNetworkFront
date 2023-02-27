@@ -1,19 +1,28 @@
-import React from "react";
-import { Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
+import { useAppSelector } from "../../app/hooks";
 import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../app/hooks";
-import {
-  askQuestionAsync,
-  selectQuestion,
+  selectIndexCurrentQuestion,
+  selectQuestionHistory,
 } from "../../app/slices/ifaSlice";
 
 export default function IsAsking() {
-  const dispatch = useAppDispatch();
-  const question = useAppSelector(selectQuestion);
+  const questionHistory = useAppSelector(
+    selectQuestionHistory,
+  );
+  const indexCurrentQuestion = useAppSelector(
+    selectIndexCurrentQuestion,
+  );
   const textShadow = "-4px 1px #002021";
   const textShadow2 = "-1px 1px #002021";
+
+  const [question, setQuestion] = useState(
+    questionHistory[indexCurrentQuestion],
+  );
+
+  useEffect(() => {
+    setQuestion(questionHistory[indexCurrentQuestion]);
+  }, [indexCurrentQuestion, questionHistory]);
 
   return (
     <div style={{ marginTop: "10%" }}>
@@ -23,10 +32,6 @@ export default function IsAsking() {
         spacing={1}
         margin="0 auto"
         width="100%"
-        onClick={(e) => {
-          e.stopPropagation();
-          dispatch(askQuestionAsync({ ibo: true }));
-        }}
       >
         <Grid item xs={3.5}></Grid>
         {/*question secondOdu */}
@@ -46,20 +51,25 @@ export default function IsAsking() {
               justifyContent: "space-around",
             }}
           >
-            {!!question &&
+            {!!questionHistory.length &&
               question?.secondOdu &&
-              question?.secondOdu?.leg1?.map(
+              questionHistory[
+                indexCurrentQuestion
+              ]?.secondOdu?.leg1?.map(
                 (m: boolean, i: number) => (
                   <h2
                     key={i}
                     className="markItemIsAsking"
                     style={{
                       textShadow,
-                      color: !!question?.secondOdu
-                        ?.randomColor
+                      color: !!questionHistory[
+                        indexCurrentQuestion
+                      ]?.secondOdu?.randomColor
                         ? `${
                             "#" +
-                            question?.secondOdu?.randomColor
+                            questionHistory[
+                              indexCurrentQuestion
+                            ]?.secondOdu?.randomColor
                           }`
                         : "white",
                     }}
@@ -78,19 +88,24 @@ export default function IsAsking() {
               justifyContent: "space-around",
             }}
           >
-            {!!question &&
+            {!!questionHistory.length &&
               question?.secondOdu &&
-              question?.secondOdu?.leg0?.map((m, i) => (
+              questionHistory[
+                indexCurrentQuestion
+              ]?.secondOdu?.leg0?.map((m, i) => (
                 <h2
                   key={i}
                   className="markItemIsAsking"
                   style={{
                     textShadow,
-                    color: !!question?.secondOdu
-                      ?.randomColor
+                    color: !!questionHistory[
+                      indexCurrentQuestion
+                    ]?.secondOdu?.randomColor
                       ? `${
                           "#" +
-                          question?.secondOdu?.randomColor
+                          questionHistory[
+                            indexCurrentQuestion
+                          ]?.secondOdu?.randomColor
                         }`
                       : "white",
                   }}
@@ -111,18 +126,24 @@ export default function IsAsking() {
               justifyContent: "space-around",
             }}
           >
-            {!!question &&
-              question?.firstOdu?.leg1?.map(
+            {!!questionHistory.length &&
+              questionHistory[
+                indexCurrentQuestion
+              ]?.firstOdu?.leg1?.map(
                 (m: boolean, i: number) => (
                   <h2
                     key={i}
                     className="markItemIsAsking"
                     style={{
                       textShadow,
-                      color: !!question.firstOdu.randomColor
+                      color: !!questionHistory[
+                        indexCurrentQuestion
+                      ].firstOdu.randomColor
                         ? `${
                             "#" +
-                            question.firstOdu.randomColor
+                            questionHistory[
+                              indexCurrentQuestion
+                            ].firstOdu.randomColor
                           }`
                         : "white",
                     }}
@@ -142,17 +163,23 @@ export default function IsAsking() {
               justifyContent: "space-around",
             }}
           >
-            {!!question &&
-              question?.firstOdu?.leg0?.map((m, i) => (
+            {!!questionHistory.length &&
+              questionHistory[
+                indexCurrentQuestion
+              ]?.firstOdu?.leg0?.map((m, i) => (
                 <h2
                   key={i}
                   className="markItemIsAsking"
                   style={{
                     textShadow,
-                    color: !!question.firstOdu.randomColor
+                    color: !!questionHistory[
+                      indexCurrentQuestion
+                    ].firstOdu.randomColor
                       ? `${
                           "#" +
-                          question.firstOdu.randomColor
+                          questionHistory[
+                            indexCurrentQuestion
+                          ].firstOdu.randomColor
                         }`
                       : "white",
                   }}
@@ -180,14 +207,17 @@ export default function IsAsking() {
               className="oduQuestion"
               style={{
                 textShadow: textShadow2,
-                color: !!question?.secondOdu?.randomColor
+                color: !!questionHistory[
+                  indexCurrentQuestion
+                ]?.secondOdu?.randomColor
                   ? `${
                       "#" + question?.secondOdu?.randomColor
                     }`
                   : "white",
               }}
             >
-              {!!question?.secondOdu?.oduNames?.length &&
+              {!!questionHistory.length &&
+                !!question?.secondOdu?.oduNames?.length &&
                 question?.secondOdu?.oduNames[0]}
             </span>
           )}
@@ -206,7 +236,9 @@ export default function IsAsking() {
               className="oduQuestion"
               style={{
                 textShadow: textShadow2,
-                color: !!question?.firstOdu?.randomColor
+                color: !!questionHistory[
+                  indexCurrentQuestion
+                ]?.firstOdu?.randomColor
                   ? `${
                       "#" + question?.firstOdu?.randomColor
                     }`
@@ -220,18 +252,28 @@ export default function IsAsking() {
         </Grid>
         <Grid item xs={3.5}></Grid>
 
-        <Grid item xs={4}></Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12}>
           {typeof question?.response === "boolean" && (
-            <h1
-              style={{
-                textAlign: "center",
-                fontSize: "3rem",
-                fontWeight: "bold",
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                alignContent: "center",
               }}
             >
-              {question?.response?.toString()}
-            </h1>
+              <span>{question?.question}</span>
+              <h1
+                style={{
+                  textAlign: "center",
+                  fontSize: "2rem",
+                  fontWeight: "bold",
+                }}
+              >
+                {question?.response?.toString()}
+              </h1>
+            </Box>
           )}
         </Grid>
       </Grid>

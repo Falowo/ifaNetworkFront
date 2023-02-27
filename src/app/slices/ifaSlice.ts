@@ -340,6 +340,8 @@ export const askQuestionAsync = createAsyncThunk<
             firstOdu,
             secondOdu,
           };
+          console.log({ payload });
+
           return payload;
         } else {
           const payload: Question = {
@@ -348,6 +350,9 @@ export const askQuestionAsync = createAsyncThunk<
             firstOdu,
             secondOdu,
           };
+
+          console.log({ payload });
+
           return payload;
         }
       }
@@ -585,7 +590,8 @@ export const selectCurrentOdu = (state: RootState) =>
 export const selectOduHistory = (state: RootState) =>
   state.ifa.history;
 
-export const selectQuestionHistory = (state: RootState) =>state.ifa.questionHistory;
+export const selectQuestionHistory = (state: RootState) =>
+  state.ifa.questionHistory;
 export const selectQuestion = (state: RootState) =>
   state.ifa.question;
 export const selectIndexCurrentOdu = (state: RootState) =>
