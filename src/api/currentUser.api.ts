@@ -9,7 +9,7 @@ export const getOrCreateCurrentUser = (
 ): Promise<AxiosResponse> => {
   return publicInstance().post(
     "public/currentUser/getOrCreate",
-    authUser,
+    { authUser },
   );
 };
 
