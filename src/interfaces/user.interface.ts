@@ -1,38 +1,47 @@
-export enum Relationship {
-  Single = 1,
-  Married = 2,
-  Private = 3,
+export enum Status {
+  FREE = 10,
+  ECO = 20,
+  PREMIUM = 30,
 }
 
 export interface IUser {
-  token?: string;
   _id?: string;
-  username?: string;
-  email?: string;
-  password?: string;
-  profilePicture?: string;
-  coverPicture?: string;
+  sub?: String;
+  createdAt?: Date;
+  updatedAt?: Date;
+  name?: String;
+  given_name?: String;
+  family_name?: String;
+  middle_name?: String;
+  nickname?: String;
+  preferred_username?: String;
+  profile?: String;
+  picture?: String;
+  website?: String;
+  email?: String;
+  email_verified?: boolean;
+  gender?: String;
+  birthdate?: String;
+  zoneinfo?: String;
+  locale?: String;
+  phone_number?: String;
+  phone_number_verified?: boolean;
+  address?: String;
+  updated_at?: string;
+  friendsIds?: string[];
   followersIds?: string[];
-  followedIds?: string[];
-  friendRequestsFrom?: string[];
-  friendRequestsTo?: string[];
-  friends?: string[];
-  notCheckedFriendRequestsFrom?: string[];
-  notCheckedAcceptedFriendRequestsBy?: string[];
-  blocked?: string[];
+  notCheckedNewFollowersIds?: string[];
+  blockedIds?: string[];
   isAdmin?: boolean;
-  desc?: string;
-  city?: string;
-  from?: string;
-  relationship?: Relationship;
-  birthDate?: Date;
-  numberOfMessages?: number;
+  isBabalawo?: boolean;
+  desc?: String;
+  status?: Status;
+  [key: string]: any;
 }
 
 export interface ToUpdateUserInfo {
-  city?: string;
+  adress?: string;
   from?: string;
-  relationship?: Relationship;
 }
 export interface ToUpdateUserDesc {
   desc?: string;
