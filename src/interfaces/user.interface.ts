@@ -1,4 +1,4 @@
-export enum Status {
+export enum StatusUser {
   FREE = 10,
   ECO = 20,
   PREMIUM = 30,
@@ -35,7 +35,7 @@ export interface IUser {
   isAdmin?: boolean;
   isBabalawo?: boolean;
   desc?: string;
-  status?: Status;
+  status?: StatusUser;
   [key: string]: any;
 }
 
