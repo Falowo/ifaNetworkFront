@@ -201,14 +201,16 @@ export default function OponIfa() {
                 color="warning"
                 disabled={
                   !isAuthenticated ||
-                  user?.name !== "Josselin Falowo Krikorian"
+                  (user?.name !==
+                    "Josselin Falowo Krikorian" &&
+                    user?.name !== "Falowo Orisatola")
                 }
               />
             }
             label={
               isDivinationMode
                 ? "Divination Mode"
-                : `${user?.name}`
+                : `Study Mode`
             }
           />
         </FormGroup>
