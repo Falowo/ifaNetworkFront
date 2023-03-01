@@ -208,7 +208,7 @@ export default function OponIfa() {
             label={
               isDivinationMode
                 ? "Divination Mode"
-                : "Study Mode"
+                : `${user?.name}`
             }
           />
         </FormGroup>
