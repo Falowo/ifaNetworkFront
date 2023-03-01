@@ -18,6 +18,8 @@ export default function IsNotAsking(props: {
   isDivinationMode: boolean;
 }) {
   const { isDivinationMode } = props;
+  console.log({isDivinationMode});
+  
   const dispatch = useAppDispatch();
   const currentOdu = useAppSelector(selectCurrentOdu);
   const oduHistory = useAppSelector(selectOduHistory);
