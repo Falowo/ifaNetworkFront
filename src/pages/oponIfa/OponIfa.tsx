@@ -251,9 +251,7 @@ export default function OponIfa() {
           autoFocus={true}
           placeholder="Write your binary question or formalize it"
           ref={inputEl}
-          onChange={() =>
-            console.log(inputEl.current?.value)
-          }
+          
         />
       )}
       <div
@@ -312,7 +310,6 @@ export default function OponIfa() {
               } else {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const question = inputEl.current?.value;
-                console.log({ question });
 
                 dispatch(
                   askQuestionAsync({ ibo: true, question }),
@@ -392,7 +389,6 @@ export default function OponIfa() {
               dispatch(castOdu());
             } else {
               const question = inputEl.current?.value;
-              console.log({ question });
 
               dispatch(
                 askQuestionAsync({ ibo: true, question }),

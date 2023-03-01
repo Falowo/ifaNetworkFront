@@ -56,7 +56,6 @@ function App() {
         try {
           const audience =
             process.env.REACT_APP_API_AUDIENCE;
-          console.log(audience);
 
           const token = await getAccessTokenSilently({
             authorizationParams: {
@@ -68,7 +67,6 @@ function App() {
           dispatch(setToken(token));
           !!user &&
             dispatch(getOrCreateUserDBSecureAsync(user));
-          console.log({ accessToken });
         } catch (e) {
           console.error({ e });
         }
