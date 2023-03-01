@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./oponIfa.css";
 import OponIfaImage from "./square-opon-ifa-black.jpg";
+
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
   Container,
@@ -40,7 +42,10 @@ import IsNotAsking from "../../components/oponIfaMods/IsNotAsking";
 import IsAsking from "../../components/oponIfaMods/IsAsking";
 
 export default function OponIfa() {
+  const { isAuthenticated } = useAuth0();
   const [isAsking, setIsAsking] = useState<boolean>(false);
+  const [isDivinationMode, setIsDivinationMode] =
+    useState<boolean>(false);
   const dispatch = useAppDispatch();
   // const currentOdu = useAppSelector(selectCurrentOdu);
   const inputEl = useRef<HTMLInputElement>(null);
@@ -178,6 +183,33 @@ export default function OponIfa() {
         padding: "0 auto !important",
       }}
     >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isDivinationMode}
+                onChange={() =>
+                  setIsDivinationMode(!isDivinationMode)
+                }
+                aria-label="isAsking switch"
+                color="warning"
+                disabled={!isAuthenticated}
+              />
+            }
+            label={
+              isDivinationMode
+                ? "Divination Mode"
+                : "Study Mode"
+            }
+          />
+        </FormGroup>
+      </Box>
       {!isAsking ? (
         <Box
           sx={{
@@ -255,7 +287,6 @@ export default function OponIfa() {
             ) => {
               e.stopPropagation();
               console.log("go room");
-              
             }}
             sx={{
               fontSize: "1.5rem",

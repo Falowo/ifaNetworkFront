@@ -279,7 +279,7 @@ export default function PrimarySearchAppBar(props: Props) {
         <Button
           color="inherit"
           onClick={() => {
-            navigate(`/home`);
+            navigate(`/`);
           }}
         >
           AdaIfa
@@ -344,7 +344,7 @@ export default function PrimarySearchAppBar(props: Props) {
             <Button
               color="inherit"
               onClick={() => {
-                navigate(`/home`);
+                navigate(`/`);
               }}
             >
               AdaIfa
