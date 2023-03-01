@@ -328,9 +328,8 @@ export default function PrimarySearchAppBar(props: Props) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={(e) => {
+            onClick={() => {
               handleDrawerToggle();
-              console.log("click");
             }}
           >
             <MenuIcon />

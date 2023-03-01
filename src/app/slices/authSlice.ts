@@ -54,7 +54,6 @@ export const getOrCreateUserDBAsync = createAsyncThunk<
   "auth/getOrCreateUserDBAsync",
   async (authUser, { dispatch, getState }) => {
     const token = selectToken(getState());
-    console.log(token);
 
     if (!!token) {
       const response = await getOrCreateCurrentUser(
@@ -79,7 +78,6 @@ export const getOrCreateUserDBSecureAsync =
     "auth/getOrCreateUserDBSecureAsync",
     async (authUser, { dispatch, getState }) => {
       const token = selectToken(getState());
-      console.log(token);
 
       if (!!token) {
         const response = await getOrCreateCurrentUserSecure(
