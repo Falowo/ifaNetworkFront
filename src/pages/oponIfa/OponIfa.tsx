@@ -42,7 +42,7 @@ import IsNotAsking from "../../components/oponIfaMods/IsNotAsking";
 import IsAsking from "../../components/oponIfaMods/IsAsking";
 
 export default function OponIfa() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
   const [isAsking, setIsAsking] = useState<boolean>(false);
   const [isDivinationMode, setIsDivinationMode] =
     useState<boolean>(false);
@@ -199,7 +199,7 @@ export default function OponIfa() {
                 }
                 aria-label="isAsking switch"
                 color="warning"
-                disabled={!isAuthenticated}
+                disabled={!isAuthenticated || user?.name !== "Josselin Falowo Krikorian" }
               />
             }
             label={
