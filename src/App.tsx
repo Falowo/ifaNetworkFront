@@ -85,13 +85,12 @@ function App() {
       <CssBaseline />
       <Container
         maxWidth="xl"
-        style={{ backgroundColor: "black" }}
       >
         <TopBar />
         <Box
           sx={{
             width: { xs: "100%", sm: "80%", lg: "60%" },
-            mx: { xs: 0, sm: "12%", lg: "16%" },
+            mx: { xs:"0", sm: "12%", lg: "16%" },
           }}
         >
           <Paper elevation={3} sx={{ p: { xs: 1, md: 3 } }}>
