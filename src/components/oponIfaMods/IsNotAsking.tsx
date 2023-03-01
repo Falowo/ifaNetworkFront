@@ -14,7 +14,10 @@ import {
 } from "../../app/slices/ifaSlice";
 // import * as timeago from "timeago.js";
 
-export default function IsNotAsking() {
+export default function IsNotAsking(props: {
+  isDivinationMode: boolean;
+}) {
+  const { isDivinationMode } = props;
   const dispatch = useAppDispatch();
   const currentOdu = useAppSelector(selectCurrentOdu);
   const oduHistory = useAppSelector(selectOduHistory);
@@ -47,8 +50,10 @@ export default function IsNotAsking() {
                   <h2
                     key={i}
                     onClick={(e) => {
-                      window.screen.width >= 1280 &&
+                      // window.screen.width >= 1280 &&
+                      !isDivinationMode &&
                         e.stopPropagation();
+
                       const mark: Mark = {
                         legEntry: true,
                         indexOfLeg: i,
@@ -57,7 +62,8 @@ export default function IsNotAsking() {
                         mark,
                         currentOdu,
                       };
-                      if (window.screen.width >= 1280) {
+                      // if (window.screen.width >= 1280) {
+                      if (!isDivinationMode) {
                         indexCurrentOdu === 0 &&
                           dispatch(
                             modifyCurrentOdu(payload),
@@ -65,7 +71,8 @@ export default function IsNotAsking() {
                       }
                     }}
                     className={
-                      window.screen.width >= 1280
+                      // window.screen.width >= 1280
+                      !isDivinationMode
                         ? "markItem"
                         : "mobileMarkItem"
                     }
@@ -102,14 +109,16 @@ export default function IsNotAsking() {
                   <h2
                     key={i}
                     onClick={(e) => {
-                      window.screen.width >= 1280 &&
+                      // window.screen.width >= 1280 &&
+                      !isDivinationMode &&
                         e.stopPropagation();
                       const mark: Mark = {
                         legEntry: false,
                         indexOfLeg: i,
                       };
                       const payload = { mark, currentOdu };
-                      if (window.screen.width >= 1280) {
+                      // if (window.screen.width >= 1280) {
+                      if (!isDivinationMode) {
                         indexCurrentOdu === 0 &&
                           dispatch(
                             modifyCurrentOdu(payload),
@@ -117,7 +126,8 @@ export default function IsNotAsking() {
                       }
                     }}
                     className={
-                      window.screen.width >= 1280
+                      // window.screen.width >= 1280
+                      !isDivinationMode
                         ? "markItem"
                         : "mobileMarkItem"
                     }

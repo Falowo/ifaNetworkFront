@@ -199,7 +199,10 @@ export default function OponIfa() {
                 }
                 aria-label="isAsking switch"
                 color="warning"
-                disabled={!isAuthenticated || user?.name !== "Josselin Falowo Krikorian" }
+                disabled={
+                  !isAuthenticated ||
+                  user?.name !== "Josselin Falowo Krikorian"
+                }
               />
             }
             label={
@@ -251,7 +254,6 @@ export default function OponIfa() {
           autoFocus={true}
           placeholder="Write your binary question or formalize it"
           ref={inputEl}
-          
         />
       )}
       <div
@@ -406,7 +408,11 @@ export default function OponIfa() {
             alt="Opon Ifa"
           />
           <Box className="boxOponIfaMods">
-            {!isAsking ? <IsNotAsking /> : <IsAsking />}
+            {!isAsking ? (
+              <IsNotAsking isDivinationMode />
+            ) : (
+              <IsAsking />
+            )}
           </Box>
         </div>
         <Box
