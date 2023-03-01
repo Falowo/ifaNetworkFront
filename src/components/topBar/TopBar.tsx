@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,8 +17,31 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../app/hooks";
 import { selectToken } from "../../app/slices/authSlice";
+import {
+  Button,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+
+import { pages } from "../../App";
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
+
+const drawerWidth = 240;
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,9 +86,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props: Props) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
   const dispatch = useAppDispatch();
-  const token = useAppSelector(selectToken)
+  const token = useAppSelector(selectToken);
   const env = process.env.NODE_ENV;
 
   const {
@@ -121,8 +152,20 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate("/profile");
+        }}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          navigate("/myAccount");
+        }}
+      >
         My account
       </MenuItem>
       {((env === "production" &&
@@ -171,7 +214,7 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem onClick={() => navigate("messenger")}>
         <IconButton
           size="large"
           aria-label="show 4 new mails"
@@ -183,6 +226,7 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
+      {/* toDo */}
       <MenuItem>
         <IconButton
           size="large"
@@ -195,7 +239,12 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem
+        onClick={(e) => {
+          e.stopPropagation();
+          handleProfileMenuOpen(e);
+        }}
+      >
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -212,8 +261,62 @@ export default function PrimarySearchAppBar() {
 
   useEffect(() => {
     console.log({ user, isLoading, isAuthenticated, env });
+  }, [
+    isLoading,
+    user,
+    isAuthenticated,
+    env,
+    dispatch,
+    token,
+  ]);
 
-  }, [isLoading, user, isAuthenticated, env, dispatch, token]);
+  const drawer = (
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{ textAlign: "center" }}
+    >
+      <Typography variant="h6" sx={{ my: 2 }}>
+        <Button
+          color="inherit"
+          onClick={() => {
+            navigate(`/home`);
+          }}
+        >
+          AdaIfa
+        </Button>
+      </Typography>
+      <Divider />
+      <List>
+        {pages.map((page) => (
+          <ListItem key={page} disablePadding>
+            <ListItemButton
+              sx={{ textAlign: "center" }}
+              onClick={() => {
+                navigate(`${page.toLowerCase()}`);
+              }}
+            >
+              <ListItemText primary={page} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+         <ListItem key={"links"} disablePadding>
+            <ListItemButton
+              sx={{ textAlign: "center" }}
+              onClick={() => {
+                navigate(`/links`);
+              }}
+            >
+              <ListItemText primary="Links" />
+            </ListItemButton>
+          </ListItem>
+      </List>
+    </Box>
+  );
+
+  const container =
+    window !== undefined
+      ? () => window().document.body
+      : undefined;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -225,6 +328,10 @@ export default function PrimarySearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={(e) => {
+              handleDrawerToggle();
+              console.log("click");
+            }}
           >
             <MenuIcon />
           </IconButton>
@@ -234,7 +341,14 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            <Button
+              color="inherit"
+              onClick={() => {
+                navigate(`/home`);
+              }}
+            >
+              AdaIfa
+            </Button>
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -246,16 +360,36 @@ export default function PrimarySearchAppBar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+          <Box
+            sx={{ display: { xs: "none", md: "block" } }}
+          >
+            {pages.map((page) => (
+              <Button
+                key={page}
+                sx={{ color: "#fff" }}
+                onClick={() => {
+                  navigate(`${page.toLowerCase()}`);
+                }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+          <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              onClick={() => {
+                navigate(`/messenger`);
+              }}
             >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
+            {/* toDo */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -293,6 +427,25 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
     </Box>
   );
 }

@@ -20,13 +20,24 @@ import {
   setToken,
   // tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
-import Callback from "./pages/callback/Callback";
+import Home from "./pages/home/Home";
+import OduRoom from "./pages/oduRoom/OduRoom";
+import Page0 from "./pages/page0/Page0";
+import Page1 from "./pages/page1/Page1";
+import Page2 from "./pages/page2/Page2";
+import Shop from "./pages/shop/Shop";
+import Profile from "./pages/profile/Profile";
+import Links from "./pages/links/Links";
+import Messenger from "./pages/messenger/Messenger";
+import MyAccount from "./pages/myAccount/MyAccount";
 // import { getPublicRequest } from "./api/auth.api";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
 });
+
+export const pages = ["Ifa", "Oshun", "Readings"];
 
 function App() {
   const {
@@ -80,8 +91,32 @@ function App() {
         <TopBar />
         <Routes>
           <Route path="/" element={<OponIfa />} />
-          <Route path="/callback" element={<Callback />} />
-          <Route path="/*" element={<OponIfa />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/oduRoom" element={<OduRoom />} />
+          <Route
+            path={`/${pages[0].toLowerCase()}`}
+            element={<Page0 />}
+          />
+          <Route
+            path={`/${pages[1].toLowerCase()}`}
+            element={<Page1 />}
+          />
+          <Route
+            path={`/${pages[2].toLowerCase()}`}
+            element={<Page2 />}
+          />
+          <Route path={`/shop`} element={<Shop />} />
+          <Route path={`/profile`} element={<Profile />} />
+          <Route
+            path={`/myAccount`}
+            element={<MyAccount />}
+          />
+          <Route
+            path={`/messenger`}
+            element={<Messenger />}
+          />
+          <Route path={`/links`} element={<Links />} />
+          <Route path="/*" element={<Home />} />
         </Routes>
       </Container>
     </ThemeProvider>
