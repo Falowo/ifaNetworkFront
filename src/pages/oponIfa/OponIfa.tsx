@@ -409,7 +409,9 @@ export default function OponIfa() {
           />
           <Box className="boxOponIfaMods">
             {!isAsking ? (
-              <IsNotAsking isDivinationMode />
+              <IsNotAsking
+                isDivinationMode={isDivinationMode}
+              />
             ) : (
               <IsAsking />
             )}
