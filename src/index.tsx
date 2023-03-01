@@ -7,6 +7,11 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter as Router } from "react-router-dom";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 const clientId = process.env.REACT_APP_CLIENT_ID;
 const domain = process.env.REACT_APP_DOMAIN;

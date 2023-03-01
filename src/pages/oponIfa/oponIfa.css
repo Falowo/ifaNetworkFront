@@ -61,6 +61,11 @@
   filter: blur(4px);
   border-radius: 30%;
 }
+.mobileMarkItem:active {
+  opacity: 0.7;
+  filter: blur(4px);
+  border-radius: 30%;
+}
 
 .oduHistoryList {
   width: 100%;

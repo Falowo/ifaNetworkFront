@@ -1,10 +1,8 @@
 import React from "react";
 import { pages } from "../../App";
+import ClassicPage from "../../components/classicPages/ClassicPage";
 
 export default function Page0() {
-  return (
-    <div>
-      <h1>{pages[0]}</h1>
-    </div>
-  );
+  const page = pages[0];
+  return <ClassicPage page={page}/>;
 }

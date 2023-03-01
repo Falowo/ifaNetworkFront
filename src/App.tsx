@@ -4,7 +4,7 @@ import {
   useAppSelector,
 } from "./app/hooks";
 import "./App.css";
-import { Container } from "@mui/material";
+import { Box, Container, Paper } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import OponIfa from "./pages/oponIfa/OponIfa";
@@ -14,6 +14,7 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
+import BottomNav from "./components/bottomNav/BottomNav";
 import {
   getOrCreateUserDBSecureAsync,
   selectToken,
@@ -87,35 +88,52 @@ function App() {
         style={{ backgroundColor: "black" }}
       >
         <TopBar />
-        <Routes>
-          <Route path="/" element={<OponIfa />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/oduRoom" element={<OduRoom />} />
-          <Route
-            path={`/${pages[0].toLowerCase()}`}
-            element={<Page0 />}
-          />
-          <Route
-            path={`/${pages[1].toLowerCase()}`}
-            element={<Page1 />}
-          />
-          <Route
-            path={`/${pages[2].toLowerCase()}`}
-            element={<Page2 />}
-          />
-          <Route path={`/shop`} element={<Shop />} />
-          <Route path={`/profile`} element={<Profile />} />
-          <Route
-            path={`/myAccount`}
-            element={<MyAccount />}
-          />
-          <Route
-            path={`/messenger`}
-            element={<Messenger />}
-          />
-          <Route path={`/links`} element={<Links />} />
-          <Route path="/*" element={<Home />} />
-        </Routes>
+        <Box
+          sx={{
+            width: { xs: "100%", sm: "80%", lg: "60%" },
+            mx: { xs: 0, sm: "12%", lg: "16%" },
+          }}
+        >
+          <Paper elevation={3} sx={{ p: { xs: 1, md: 3 } }}>
+            <Routes>
+              <Route path="/" element={<OponIfa />} />
+              <Route path="/home" element={<Home />} />
+              <Route
+                path="/oduRoom"
+                element={<OduRoom />}
+              />
+              <Route
+                path={`/${pages[0].toLowerCase()}`}
+                element={<Page0 />}
+              />
+              <Route
+                path={`/${pages[1].toLowerCase()}`}
+                element={<Page1 />}
+              />
+              <Route
+                path={`/${pages[2].toLowerCase()}`}
+                element={<Page2 />}
+              />
+              <Route path={`/shop`} element={<Shop />} />
+              <Route
+                path={`/profile`}
+                element={<Profile />}
+              />
+              <Route
+                path={`/myAccount`}
+                element={<MyAccount />}
+              />
+              <Route
+                path={`/messenger`}
+                element={<Messenger />}
+              />
+              <Route path={`/links`} element={<Links />} />
+              <Route path="/*" element={<Home />} />
+            </Routes>
+          </Paper>
+
+          <BottomNav />
+        </Box>
       </Container>
     </ThemeProvider>
   );

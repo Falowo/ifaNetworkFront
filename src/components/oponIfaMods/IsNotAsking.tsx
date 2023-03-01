@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import {
   useAppDispatch,
@@ -18,8 +18,9 @@ export default function IsNotAsking(props: {
   isDivinationMode: boolean;
 }) {
   const { isDivinationMode } = props;
-  console.log({isDivinationMode});
-  
+  console.log({ isDivinationMode });
+  const [markItemClassName, setMarkItemClassName] =
+    useState("markItem");
   const dispatch = useAppDispatch();
   const currentOdu = useAppSelector(selectCurrentOdu);
   const oduHistory = useAppSelector(selectOduHistory);
@@ -27,6 +28,23 @@ export default function IsNotAsking(props: {
     selectIndexCurrentOdu,
   );
   const textShadow = "-4px 1px #002021";
+
+  useEffect(() => {
+    if(indexCurrentOdu === 0){
+       if (window.screen.width >= 1280 && !isDivinationMode) {
+      setMarkItemClassName("markItem");
+    } else if (
+      window.screen.width < 1280 &&
+      !isDivinationMode
+    ) {
+      setMarkItemClassName("mobileMarkItem");
+    } else {
+      setMarkItemClassName("markItemIsAsking");
+    }
+    }else {
+      setMarkItemClassName("markItemIsAsking");}
+   
+  }, [indexCurrentOdu, isDivinationMode]);
 
   return (
     <div style={{ marginTop: "10%" }}>
@@ -52,7 +70,6 @@ export default function IsNotAsking(props: {
                   <h2
                     key={i}
                     onClick={(e) => {
-                      // window.screen.width >= 1280 &&
                       !isDivinationMode &&
                         e.stopPropagation();
 
@@ -64,7 +81,6 @@ export default function IsNotAsking(props: {
                         mark,
                         currentOdu,
                       };
-                      // if (window.screen.width >= 1280) {
                       if (!isDivinationMode) {
                         indexCurrentOdu === 0 &&
                           dispatch(
@@ -72,12 +88,8 @@ export default function IsNotAsking(props: {
                           );
                       }
                     }}
-                    className={
-                      // window.screen.width >= 1280
-                      !isDivinationMode
-                        ? "markItem"
-                        : "mobileMarkItem"
-                    }
+                   
+                    className={markItemClassName}
                     style={{
                       textShadow,
                       color: !!oduHistory[indexCurrentOdu]
@@ -127,12 +139,8 @@ export default function IsNotAsking(props: {
                           );
                       }
                     }}
-                    className={
-                      // window.screen.width >= 1280
-                      !isDivinationMode
-                        ? "markItem"
-                        : "mobileMarkItem"
-                    }
+                    
+                    className={markItemClassName}
                     style={{
                       textShadow,
                       color: !!oduHistory[indexCurrentOdu]

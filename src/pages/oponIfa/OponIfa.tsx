@@ -5,7 +5,6 @@ import OponIfaImage from "./square-opon-ifa-black.jpg";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
-  Container,
   FormControlLabel,
   FormGroup,
   Switch,
@@ -145,8 +144,6 @@ export default function OponIfa() {
       }
     }
     if (!!isAsking) {
-      inputEl.current?.focus();
-
       if (indexCurrentQuestion === 0) {
         setSkipNextColorCommand("disabled");
         if (questionHistory.length <= 1) {
@@ -175,14 +172,12 @@ export default function OponIfa() {
     questionHistory.length,
   ]);
 
+  useEffect(() => {
+    isAsking && inputEl.current?.focus();
+  }, [isAsking]);
+
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        margin: "0 auto !important",
-        padding: "0 auto !important",
-      }}
-    >
+    <>
       <Box
         sx={{
           display: "flex",
@@ -253,7 +248,7 @@ export default function OponIfa() {
       ) : (
         <input
           style={{ width: "100%", padding: "8px" }}
-          autoFocus={true}
+          autoFocus={false}
           placeholder="Write your binary question or formalize it"
           ref={inputEl}
         />
@@ -316,7 +311,10 @@ export default function OponIfa() {
                 const question = inputEl.current?.value;
 
                 dispatch(
-                  askQuestionAsync({ ibo: true, question }),
+                  askQuestionAsync({
+                    ibo: true,
+                    question,
+                  }),
                 );
                 if (!!inputEl?.current?.value) {
                   inputEl.current.value = "";
@@ -439,6 +437,6 @@ export default function OponIfa() {
           </FormGroup>
         </Box>
       </>
-    </Container>
+    </>
   );
 }
