@@ -4,7 +4,6 @@ import {
   convertToRaw,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ContentState,
-  ContentBlock,
 } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { convertToHTML } from "draft-convert";

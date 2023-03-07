@@ -9,26 +9,26 @@ export default function ClassicPage(props: {
   page: string;
 }) {
   const page = props.page;
-  const [title1ClassName, setTitle1ClassName] =
-    useState<string>("title1");
-  const [title2ClassName, setTitle2ClassName] =
-    useState<string>("title2");
-  const [title3ClassName, setTitle3ClassName] =
-    useState<string>("title3");
-  const [subTitle1ClassName, setSubTitle1ClassName] =
-    useState<string>("subTitle1");
-  const [imageTopClassName, setImageTopClassName] =
-    useState<string>("imageTop");
-  const [captionTopClassName, setCaptionTopClassName] =
-    useState<string>("captionTop");
-  const [body1ClassName, setBody1ClassName] =
-    useState<string>("body1");
-  const [body2ClassName, setBody2ClassName] =
-    useState<string>("body2");
+  // const [title1ClassName, setTitle1ClassName] =
+  //   useState<string>("title1");
+  // const [title2ClassName, setTitle2ClassName] =
+  //   useState<string>("title2");
+  // const [title3ClassName, setTitle3ClassName] =
+  //   useState<string>("title3");
+  // const [subTitle1ClassName, setSubTitle1ClassName] =
+  //   useState<string>("subTitle1");
+  // const [imageTopClassName, setImageTopClassName] =
+  //   useState<string>("imageTop");
+  // const [captionTopClassName, setCaptionTopClassName] =
+  //   useState<string>("captionTop");
+  // const [body1ClassName, setBody1ClassName] =
+  //   useState<string>("body1");
+  // const [body2ClassName, setBody2ClassName] =
+  //   useState<string>("body2");
   return (
     <>
       <Typography
-        className={title1ClassName}
+        // className={title1ClassName}
         variant="h1"
         gutterBottom={false}
       >
@@ -36,7 +36,7 @@ export default function ClassicPage(props: {
       </Typography>
 
       <Typography
-        className={subTitle1ClassName}
+        // className={subTitle1ClassName}
         variant="subtitle1"
         gutterBottom
       >
@@ -44,7 +44,7 @@ export default function ClassicPage(props: {
       </Typography>
 
       <img
-        className={imageTopClassName}
+        // className={imageTopClassName}
         src={PlaceHolder}
         alt=""
         style={{
@@ -53,7 +53,7 @@ export default function ClassicPage(props: {
       />
 
       <Typography
-        className={captionTopClassName}
+        // className={captionTopClassName}
         variant="caption"
         display="block"
         gutterBottom
@@ -65,7 +65,7 @@ export default function ClassicPage(props: {
       </Typography>
 
       <Typography
-        className={body1ClassName}
+        // className={body1ClassName}
         variant="body1"
         gutterBottom
       >
@@ -73,7 +73,7 @@ export default function ClassicPage(props: {
       </Typography>
 
       <Typography
-        className={title2ClassName}
+        // className={title2ClassName}
         variant="h2"
         gutterBottom
       >
@@ -84,21 +84,25 @@ export default function ClassicPage(props: {
       </Typography>
 
       <Typography
-        className={body2ClassName}
+        // className={body2ClassName}
         variant="body2"
         gutterBottom
       >
         {loremIpsum({ p: 3 })}
       </Typography>
 
-      <Typography className={title2ClassName} variant="h3" gutterBottom>
+      <Typography 
+      // className={title2ClassName} 
+      variant="h3" gutterBottom>
         {loremIpsum({
           avgSentencesPerParagraph: 1,
           avgWordsPerSentence: 3,
         })}
       </Typography>
 
-      <Typography className={body2ClassName} variant="body2" gutterBottom>
+      <Typography
+      //  className={body2ClassName} 
+       variant="body2" gutterBottom>
         {loremIpsum({ p: 3 })}
       </Typography>
 
