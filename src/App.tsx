@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useAppDispatch,
-  useAppSelector,
+  // useAppSelector,
 } from "./app/hooks";
 import "./App.css";
 import { Box, Paper } from "@mui/material";
@@ -17,9 +17,6 @@ import TopBar from "./components/topBar/TopBar";
 import BottomNav from "./components/bottomNav/BottomNav";
 import {
   getOrCreateUserDBSecureAsync,
-  selectToken,
-  setToken,
-  // tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
 import Home from "./pages/home/Home";
 import Page0 from "./pages/page0/Page0";
@@ -43,9 +40,6 @@ export const lightTheme = createTheme({
   },
 });
 
-
-
-
 export const pages = ["Ifa", "Oshun", "Readings"];
 
 function App() {
@@ -55,9 +49,11 @@ function App() {
     // isLoading,
     getAccessTokenSilently,
   } = useAuth0();
-  const dispatch = useAppDispatch();
 
-  const accessToken = useAppSelector(selectToken);
+  const [accessToken, setAccessToken] = useState<
+    string | undefined
+  >();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     !!isAuthenticated &&
@@ -66,16 +62,21 @@ function App() {
           const audience =
             process.env.REACT_APP_API_AUDIENCE;
 
-          const token = await getAccessTokenSilently({
+          const accessToken = await getAccessTokenSilently({
             authorizationParams: {
               audience: audience, // Value in Identifier field for the API being called.
               scope: "read:posts",
             },
           });
 
-          dispatch(setToken(token));
+          setAccessToken(accessToken);
           !!user &&
-            dispatch(getOrCreateUserDBSecureAsync(user));
+            dispatch(
+              getOrCreateUserDBSecureAsync({
+                authUser: user,
+                accessToken,
+              }),
+            );
         } catch (e) {
           console.error({ e });
         }
@@ -151,7 +152,10 @@ function App() {
                 element={<Messenger />}
               />
               <Route path={`/links`} element={<Links />} />
-              <Route path={`/editor`} element={<PostEditor />} />
+              <Route
+                path={`/editor`}
+                element={<PostEditor />}
+              />
               <Route path="/*" element={<Home />} />
             </Routes>
           </Paper>

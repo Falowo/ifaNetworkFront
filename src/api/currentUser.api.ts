@@ -16,10 +16,10 @@ export const getOrCreateCurrentUser = (
 // private
 
 export const getOrCreateCurrentUserSecure = (
-  token: string,
+  accessToken: string,
   authUser: User,
 ): Promise<AxiosResponse> => {
-  return instance(token).post(
+  return instance(accessToken).post(
     "private/currentUser/getOrCreate",
     { authUser },
   );

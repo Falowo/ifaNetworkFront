@@ -190,25 +190,31 @@ export default function OponIfa() {
         <FormGroup>
           {/* <FormControlLabel
             control={ */}
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <Typography sx={{size: 'small'}}>Study</Typography>
-              <Switch
-                checked={isDivinationMode}
-                onChange={() =>
-                  setIsDivinationMode(!isDivinationMode)
-                }
-                aria-label="isAsking switch"
-                color="warning"
-                disabled={
-                  !isAuthenticated ||
-                  (user?.name !==
-                    "Josselin Falowo Krikorian" &&
-                    user?.name !== "Falowo Orisatola")
-                  }
-                  />
-                  <Typography>Divination</Typography>
-              </Stack>
-            {/* }
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+          >
+            <Typography sx={{ size: "small" }}>
+              Study
+            </Typography>
+            <Switch
+              checked={isDivinationMode}
+              onChange={() =>
+                setIsDivinationMode(!isDivinationMode)
+              }
+              aria-label="isAsking switch"
+              color="warning"
+              disabled={
+                !isAuthenticated ||
+                (user?.name !==
+                  "Josselin Falowo Krikorian" &&
+                  user?.name !== "Falowo Orisatola")
+              }
+            />
+            <Typography>Divination</Typography>
+          </Stack>
+          {/* }
             label={
               isDivinationMode
                 ? "Divination Mode"
@@ -258,6 +264,27 @@ export default function OponIfa() {
           autoFocus={false}
           placeholder="Write your binary question or formalize it"
           ref={inputEl}
+          type="text"
+          onKeyDownCapture={(e) => {
+            console.log("onKeyDownCapture");
+            console.log(e);
+
+            if (e.key === "Enter") {
+              const question = inputEl.current?.value;
+              console.log("Enter");
+
+              dispatch(
+                askQuestionAsync({
+                  ibo: true,
+                  question,
+                }),
+              );
+              if (!!inputEl?.current?.value) {
+                inputEl.current.blur();
+                inputEl.current.value = "";
+              }
+            }
+          }}
         />
       )}
       <div

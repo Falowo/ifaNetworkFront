@@ -1,8 +1,4 @@
-export interface IEmoji {
-  unified: string;
-  size?: string;
-}
-
+import { ETheme } from "./themes.enum";
 export interface IImage {
   _id?: string;
   fileName: string;
@@ -27,42 +23,9 @@ export interface IAudio {
 
 export interface IText {
   _id?: string;
-  type:
-    | "h1"
-    | "h2"
-    | "h3"
-    | "h4"
-    | "body1"
-    | "body2"
-    | "body3"
-    | "body4"
-    | "caption"
-    | "subtitle1"
-    | "subtitle2";
   content: string;
   local?: string;
-  gutterBottom?: boolean;
   postId?: string;
-}
-
-export interface IBox {
-  _id?: string;
-  arrayElements: Array<
-    IText | IVideo | IAudio | IImage | IEmoji
-  >;
-  postId?: string;
-  display?: "flex" | "bloc" | "inline" | "inline-block";
-  flexDirection?: "row" | "column" | "row-reverse";
-  flexWrap?: "wrap" | "nowrap";
-  justifyContent?:
-    | "center"
-    | "start"
-    | "end"
-    | "space-between"
-    | "space-evenly"
-    | "space-around";
-
-  alignItems?: "center" | "start" | "end" | "baseline";
 }
 
 export interface IComment {
@@ -75,19 +38,28 @@ export interface IComment {
 
 export interface IPost {
   _id?: string;
-  arrayElements: Array<
-    IText | IVideo | IAudio | IImage | IEmoji | IBox
-  >;
   oduBin?: number;
   classicPageId?: string;
-  hashTags?: string[];
   userId?: string;
+  images?: IImage[];
+  audios?: IAudio[];
+  videos?: IVideo[];
+  comments?: Comment[];
+  hashTags?: string[];
   locals?: string[];
   backGround?: string;
-  comments?: Comment[];
   targetUserIds?: string[];
   likingUserIds?: string[];
   isEditing?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+export interface IClassicPage {
+  _id?: string;
+  title?: string;
+  posts?: IPost[];
+  theme?: ETheme;
+}
+
+

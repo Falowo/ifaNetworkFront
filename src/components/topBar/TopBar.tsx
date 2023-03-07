@@ -21,7 +21,6 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../app/hooks";
-import { selectToken } from "../../app/slices/authSlice";
 import {
   Button,
   Divider,
@@ -95,7 +94,6 @@ export default function PrimarySearchAppBar(props: Props) {
     setMobileOpen((prevState) => !prevState);
   };
   const dispatch = useAppDispatch();
-  const token = useAppSelector(selectToken);
   const env = process.env.NODE_ENV;
 
   const {
@@ -261,14 +259,7 @@ export default function PrimarySearchAppBar(props: Props) {
 
   useEffect(() => {
     console.log({ user, isLoading, isAuthenticated, env });
-  }, [
-    isLoading,
-    user,
-    isAuthenticated,
-    env,
-    dispatch,
-    token,
-  ]);
+  }, [isLoading, user, isAuthenticated, env, dispatch]);
 
   const drawer = (
     <Box
