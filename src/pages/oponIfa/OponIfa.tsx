@@ -27,22 +27,22 @@ import {
 } from "../../app/hooks";
 import {
   askQuestionAsync,
-  //   blankTrail,
   castOdu,
   decrementIndexCurrentOdu,
   decrementIndexCurrentQuestion,
   incrementIndexCurrentOdu,
   incrementIndexCurrentQuestion,
-  // selectCurrentOdu,
   selectIndexCurrentOdu,
   selectIndexCurrentQuestion,
   selectOduHistory,
   selectQuestionHistory,
 } from "../../app/slices/ifaSlice";
+import { selectUserDB } from "../../app/slices/authSlice";
 import IsNotAsking from "../../components/oponIfaMods/IsNotAsking";
 import IsAsking from "../../components/oponIfaMods/IsAsking";
 
 export default function OponIfa() {
+  const userDB = useAppSelector(selectUserDB);
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth0();
   const [isAsking, setIsAsking] = useState<boolean>(false);
@@ -203,13 +203,10 @@ export default function OponIfa() {
               onChange={() =>
                 setIsDivinationMode(!isDivinationMode)
               }
-              aria-label="isAsking switch"
+              aria-label="divinationMode switch"
               color="warning"
               disabled={
-                !isAuthenticated ||
-                (user?.name !==
-                  "Josselin Falowo Krikorian" &&
-                  user?.name !== "Falowo Orisatola")
+                !(isAuthenticated && !!userDB?.isBabalawo)
               }
             />
             <Typography>Divination</Typography>
