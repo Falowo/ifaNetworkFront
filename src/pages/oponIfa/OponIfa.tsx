@@ -44,7 +44,7 @@ import IsAsking from "../../components/oponIfaMods/IsAsking";
 export default function OponIfa() {
   const userDB = useAppSelector(selectUserDB);
   const navigate = useNavigate();
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const [isAsking, setIsAsking] = useState<boolean>(false);
   const [isDivinationMode, setIsDivinationMode] =
     useState<boolean>(false);
