@@ -19,6 +19,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   useAppDispatch,
+  useAppSelector,
 } from "../../app/hooks";
 import {
   Button,
@@ -31,6 +32,7 @@ import {
 } from "@mui/material";
 
 import { pages } from "../../App";
+import { selectIsDivinationMode } from "../../app/slices/ifaSlice";
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
@@ -88,7 +90,9 @@ export default function PrimarySearchAppBar(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
-
+  const isDivinationMode = useAppSelector(
+    selectIsDivinationMode,
+  );
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
@@ -272,7 +276,7 @@ export default function PrimarySearchAppBar(props: Props) {
             navigate(`/`);
           }}
         >
-          AdaIfa
+          {isDivinationMode ? "Adáfá" : "Akọ́fá"}
         </Button>
       </Typography>
       <Divider />
@@ -336,7 +340,7 @@ export default function PrimarySearchAppBar(props: Props) {
                 navigate(`/`);
               }}
             >
-              AdaIfa
+              {isDivinationMode ? "Adáfá" : "Akọ́fá"}
             </Button>
           </Typography>
           <Search>

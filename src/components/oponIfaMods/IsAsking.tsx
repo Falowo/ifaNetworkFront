@@ -261,18 +261,35 @@ export default function IsAsking() {
                 justifyContent: "space-evenly",
                 alignItems: "center",
                 alignContent: "center",
+                m: 1,
               }}
             >
               <span>{question?.question}</span>
-              <h1
+              <a
+                className="beeLink"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                href={
+                  question?.response === true
+                    ? "https://www.google.com/search?q=b%C3%A9%C3%A8+ni+trad"
+                    : "https://www.google.com/search?q=beeko+trad"
+                }
+                target="blank"
                 style={{
                   textAlign: "center",
                   fontSize: "2rem",
                   fontWeight: "bold",
+                  padding: "1rem",
+                  color: "white",
+                  textDecoration: "none",
                 }}
               >
-                {question?.response?.toString()}
-              </h1>
+                {/* {question?.response?.toString()} */}
+                {question?.response === true
+                  ? "Bẹ́ẹ̀ni "
+                  : "Bẹ́ẹ̀kọ́ "}
+              </a>
             </Box>
           )}
         </Grid>

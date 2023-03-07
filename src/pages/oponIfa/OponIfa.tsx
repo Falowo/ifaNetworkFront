@@ -32,10 +32,13 @@ import {
   decrementIndexCurrentQuestion,
   incrementIndexCurrentOdu,
   incrementIndexCurrentQuestion,
+  selectCurrentOdu,
   selectIndexCurrentOdu,
   selectIndexCurrentQuestion,
+  selectIsDivinationMode,
   selectOduHistory,
   selectQuestionHistory,
+  toggleIsDivinationMode,
 } from "../../app/slices/ifaSlice";
 import { selectUserDB } from "../../app/slices/authSlice";
 import IsNotAsking from "../../components/oponIfaMods/IsNotAsking";
@@ -46,10 +49,9 @@ export default function OponIfa() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth0();
   const [isAsking, setIsAsking] = useState<boolean>(false);
-  const [isDivinationMode, setIsDivinationMode] =
-    useState<boolean>(false);
+
   const dispatch = useAppDispatch();
-  // const currentOdu = useAppSelector(selectCurrentOdu);
+  const currentOdu = useAppSelector(selectCurrentOdu);
   const inputEl = useRef<HTMLInputElement>(null);
   const indexCurrentOdu = useAppSelector(
     selectIndexCurrentOdu,
@@ -61,7 +63,15 @@ export default function OponIfa() {
   const questionHistory = useAppSelector(
     selectQuestionHistory,
   );
-  let currentOdu = oduHistory[indexCurrentOdu];
+  const isDivinationMode = useAppSelector(
+    selectIsDivinationMode,
+  );
+  const [odu, setOdu] = useState(currentOdu);
+  useEffect(() => {
+    !!oduHistory.length &&
+      setOdu(oduHistory[indexCurrentOdu]);
+  }, [indexCurrentOdu, oduHistory]);
+
   const [colorSkipNextCommand, setSkipNextColorCommand] =
     useState<
       | "disabled"
@@ -195,21 +205,34 @@ export default function OponIfa() {
             spacing={1}
             alignItems="center"
           >
-            <Typography sx={{ size: "small" }}>
+            <Typography
+              color={!isDivinationMode ? "inherit" : "grey"}
+            >
               Study
             </Typography>
             <Switch
               checked={isDivinationMode}
               onChange={() =>
-                setIsDivinationMode(!isDivinationMode)
+                dispatch(toggleIsDivinationMode())
               }
               aria-label="divinationMode switch"
               color="warning"
               disabled={
-                !(isAuthenticated && !!userDB?.isBabalawo)
+                process.env.NODE_ENV === "production"
+                  ? !(
+                      isAuthenticated &&
+                      !!userDB?.isBabalawo
+                    )
+                  : false
               }
             />
-            <Typography>Divination</Typography>
+            <Typography
+              color={
+                !!isDivinationMode ? "inherit" : "grey"
+              }
+            >
+              Divination
+            </Typography>
           </Stack>
           {/* }
             label={
@@ -233,33 +256,33 @@ export default function OponIfa() {
             style={{
               textAlign: "center",
               color: `${
-                !!currentOdu?.randomColor
-                  ? "#" + currentOdu.randomColor
+                !!odu?.randomColor
+                  ? "#" + odu.randomColor
                   : "white"
               }`,
             }}
           >
-            {!!currentOdu?.oduNames?.length
-              ? currentOdu?.oduNames[0]
+            {!!odu?.oduNames?.length
+              ? odu?.oduNames[0]
               : `e-opele`}
           </h1>
           <span
             className="spanTimeAgo"
             style={{
-              color: !!currentOdu?.randomColor
-                ? `${"#" + currentOdu?.randomColor}`
+              color: !!odu?.randomColor
+                ? `${"#" + odu?.randomColor}`
                 : "white",
             }}
           >
-            {!!currentOdu?.createdAt &&
-              timeago.format(currentOdu?.createdAt)}
+            {!!odu?.createdAt &&
+              timeago.format(odu?.createdAt)}
           </span>
         </Box>
       ) : (
         <input
           style={{ width: "100%", padding: "8px" }}
           autoFocus={false}
-          placeholder="Write your binary question or formalize it"
+          placeholder="Write your yes/no affirmative question or formalize it"
           ref={inputEl}
           type="text"
           onKeyDownCapture={(e) => {
@@ -315,7 +338,7 @@ export default function OponIfa() {
             ) => {
               e.stopPropagation();
               console.log("go room");
-              navigate(`/odu_room/${currentOdu.binId}`);
+              navigate(`/odu_room/${odu.binId}`);
             }}
             sx={{
               fontSize: "1.5rem",
@@ -439,7 +462,7 @@ export default function OponIfa() {
             alt="Opon Ifa"
           />
           <Box className="boxOponIfaMods">
-            {!isAsking ? (
+            {!isAsking || !questionHistory.length ? (
               <IsNotAsking
                 isDivinationMode={isDivinationMode}
               />

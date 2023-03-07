@@ -104,3 +104,16 @@
   font-weight: bolder !important;
   font-size: 3rem !important;
 }
+
+.beelink {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem;
+  color: white;
+  text-decoration: none;
+}
+.beeLink:hover {
+  color: rgb(24, 118, 242) !important;
+  cursor: help;
+}

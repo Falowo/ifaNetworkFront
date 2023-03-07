@@ -23,27 +23,39 @@ export default function IsNotAsking(props: {
     useState("markItem");
   const dispatch = useAppDispatch();
   const currentOdu = useAppSelector(selectCurrentOdu);
+  console.log({ currentOdu });
+
   const oduHistory = useAppSelector(selectOduHistory);
   const indexCurrentOdu = useAppSelector(
     selectIndexCurrentOdu,
   );
   const textShadow = "-4px 1px #002021";
 
+  const [odu, setOdu] = useState(currentOdu);
+
   useEffect(() => {
-    if(indexCurrentOdu === 0){
-       if (window.screen.width >= 1280 && !isDivinationMode) {
-      setMarkItemClassName("markItem");
-    } else if (
-      window.screen.width < 1280 &&
-      !isDivinationMode
-    ) {
-      setMarkItemClassName("mobileMarkItem");
+    !!oduHistory.length &&
+      setOdu(oduHistory[indexCurrentOdu]);
+  }, [indexCurrentOdu, oduHistory]);
+
+  useEffect(() => {
+    if (indexCurrentOdu === 0) {
+      if (
+        window.screen.width >= 1280 &&
+        !isDivinationMode
+      ) {
+        setMarkItemClassName("markItem");
+      } else if (
+        window.screen.width < 1280 &&
+        !isDivinationMode
+      ) {
+        setMarkItemClassName("mobileMarkItem");
+      } else {
+        setMarkItemClassName("markItemIsAsking");
+      }
     } else {
       setMarkItemClassName("markItemIsAsking");
     }
-    }else {
-      setMarkItemClassName("markItemIsAsking");}
-   
   }, [indexCurrentOdu, isDivinationMode]);
 
   return (
@@ -63,49 +75,38 @@ export default function IsNotAsking(props: {
               justifyContent: "space-around",
             }}
           >
-            {!!currentOdu &&
-              !!oduHistory &&
-              oduHistory[indexCurrentOdu]?.leg1?.map(
-                (m: boolean, i: number) => (
-                  <h2
-                    key={i}
-                    onClick={(e) => {
-                      !isDivinationMode &&
-                        e.stopPropagation();
+            {!!odu &&
+              odu?.leg1?.map((m: boolean, i: number) => (
+                <h2
+                  key={i}
+                  onClick={(e) => {
+                    !isDivinationMode &&
+                      e.stopPropagation();
 
-                      const mark: Mark = {
-                        legEntry: true,
-                        indexOfLeg: i,
-                      };
-                      const payload = {
-                        mark,
-                        currentOdu,
-                      };
-                      if (!isDivinationMode) {
-                        indexCurrentOdu === 0 &&
-                          dispatch(
-                            modifyCurrentOdu(payload),
-                          );
-                      }
-                    }}
-                   
-                    className={markItemClassName}
-                    style={{
-                      textShadow,
-                      color: !!oduHistory[indexCurrentOdu]
-                        .randomColor
-                        ? `${
-                            "#" +
-                            oduHistory[indexCurrentOdu]
-                              .randomColor
-                          }`
-                        : "white",
-                    }}
-                  >
-                    {m === true ? "I" : "II"}
-                  </h2>
-                ),
-              )}
+                    const mark: Mark = {
+                      legEntry: true,
+                      indexOfLeg: i,
+                    };
+                    const payload = {
+                      mark,
+                      currentOdu,
+                    };
+                    if (!isDivinationMode) {
+                      indexCurrentOdu === 0 &&
+                        dispatch(modifyCurrentOdu(payload));
+                    }
+                  }}
+                  className={markItemClassName}
+                  style={{
+                    textShadow,
+                    color: !!odu.randomColor
+                      ? `${"#" + odu.randomColor}`
+                      : "white",
+                  }}
+                >
+                  {m === true ? "I" : "II"}
+                </h2>
+              ))}
           </div>
         </Grid>
         <Grid item xs={1.5}>
@@ -116,47 +117,36 @@ export default function IsNotAsking(props: {
               justifyContent: "space-around",
             }}
           >
-            {!!currentOdu &&
-              !!oduHistory.length &&
-              oduHistory[indexCurrentOdu].leg0?.map(
-                (m, i) => (
-                  <h2
-                    key={i}
-                    onClick={(e) => {
-                      // window.screen.width >= 1280 &&
-                      !isDivinationMode &&
-                        e.stopPropagation();
-                      const mark: Mark = {
-                        legEntry: false,
-                        indexOfLeg: i,
-                      };
-                      const payload = { mark, currentOdu };
-                      // if (window.screen.width >= 1280) {
-                      if (!isDivinationMode) {
-                        indexCurrentOdu === 0 &&
-                          dispatch(
-                            modifyCurrentOdu(payload),
-                          );
-                      }
-                    }}
-                    
-                    className={markItemClassName}
-                    style={{
-                      textShadow,
-                      color: !!oduHistory[indexCurrentOdu]
-                        .randomColor
-                        ? `${
-                            "#" +
-                            oduHistory[indexCurrentOdu]
-                              .randomColor
-                          }`
-                        : "white",
-                    }}
-                  >
-                    {m === true ? "I" : "II"}
-                  </h2>
-                ),
-              )}
+            {!!odu &&
+              odu.leg0?.map((m, i) => (
+                <h2
+                  key={i}
+                  onClick={(e) => {
+                    // window.screen.width >= 1280 &&
+                    !isDivinationMode &&
+                      e.stopPropagation();
+                    const mark: Mark = {
+                      legEntry: false,
+                      indexOfLeg: i,
+                    };
+                    const payload = { mark, currentOdu };
+                    // if (window.screen.width >= 1280) {
+                    if (!isDivinationMode) {
+                      indexCurrentOdu === 0 &&
+                        dispatch(modifyCurrentOdu(payload));
+                    }
+                  }}
+                  className={markItemClassName}
+                  style={{
+                    textShadow,
+                    color: !!odu.randomColor
+                      ? `${"#" + odu.randomColor}`
+                      : "white",
+                  }}
+                >
+                  {m === true ? "I" : "II"}
+                </h2>
+              ))}
           </div>
         </Grid>
 

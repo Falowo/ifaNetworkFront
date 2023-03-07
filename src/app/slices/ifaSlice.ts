@@ -57,20 +57,23 @@ export interface IfaCity {
   history: OduItem[];
   questionHistory: Question[];
   isFetching: boolean;
+  isDivinationMode: boolean;
 }
 
 const initialState: IfaCity = {
   current: {
-    leg0: [],
-    leg1: [],
-    oduNames: [],
+    leg0: [true, true, true, true],
+    leg1: [true, true, true, true],
+    oduNames: ["Èjìogbè"],
     createdAt: undefined,
+    binId: 255,
   },
   indexCurrentOdu: 0,
   indexCurrentQuestion: 0,
   history: [],
   questionHistory: [],
   isFetching: false,
+  isDivinationMode: false,
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -435,6 +438,9 @@ export const ifaSlice = createSlice({
       state.current = initialState.current;
       state.question = initialState.question;
     },
+    toggleIsDivinationMode: (state) => {
+      state.isDivinationMode = !state.isDivinationMode;
+    },
     initializeIndexCurrentOdu: (state) => {
       state.indexCurrentOdu = 0;
     },
@@ -591,6 +597,7 @@ export const ifaSlice = createSlice({
 export const {
   castOdu,
   blankTrail,
+  toggleIsDivinationMode,
   modifyCurrentOdu,
   incrementIndexCurrentOdu,
   incrementIndexCurrentQuestion,
@@ -618,6 +625,7 @@ export const selectIndexCurrentOdu = (state: RootState) =>
 export const selectIndexCurrentQuestion = (
   state: RootState,
 ) => state.ifa.indexCurrentQuestion;
-
+export const selectIsDivinationMode = (state: RootState) =>
+  state.ifa.isDivinationMode;
 
 export default ifaSlice.reducer;
