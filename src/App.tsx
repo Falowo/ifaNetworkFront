@@ -4,7 +4,7 @@ import {
   useAppSelector,
 } from "./app/hooks";
 import "./App.css";
-import { Box, Container, Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import OponIfa from "./pages/oponIfa/OponIfa";
@@ -22,7 +22,6 @@ import {
   // tryTheRequestAndDbAsync,
 } from "./app/slices/authSlice";
 import Home from "./pages/home/Home";
-import OduRoom from "./pages/oduRoom/OduRoom";
 import Page0 from "./pages/page0/Page0";
 import Page1 from "./pages/page1/Page1";
 import Page2 from "./pages/page2/Page2";
@@ -31,12 +30,21 @@ import Profile from "./pages/profile/Profile";
 import Links from "./pages/links/Links";
 import Messenger from "./pages/messenger/Messenger";
 import MyAccount from "./pages/myAccount/MyAccount";
+import PostEditor from "./pages/postEditor/PostEditor";
 // import { getPublicRequest } from "./api/auth.api";
-const darkTheme = createTheme({
+export const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
 });
+export const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
+
+
+
 
 export const pages = ["Ifa", "Oshun", "Readings"];
 
@@ -81,25 +89,41 @@ function App() {
   ]);
 
   return (
+    // <ThemeProvider theme={darkTheme}>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container
-        maxWidth="xl"
+      <Box
+        sx={{
+          m: 0,
+          p: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
         <TopBar />
         <Box
           sx={{
-            width: { xs: "100%", sm: "80%", lg: "60%" },
-            mx: { xs:"0", sm: "12%", lg: "16%" },
+            width: {
+              xs: "100%",
+              sm: "80%",
+              lg: "60%",
+              xl: "50%",
+            },
+            mx: "auto",
           }}
         >
-          <Paper elevation={3} sx={{ p: { xs: 1, md: 3 } }}>
+          <Paper
+            elevation={1}
+            sx={{ p: { xs: 1, md: 3 } }}
+            className="paper"
+          >
             <Routes>
               <Route path="/" element={<OponIfa />} />
               <Route path="/home" element={<Home />} />
               <Route
-                path="/oduRoom"
-                element={<OduRoom />}
+                path="/odu_room/:binId"
+                element={<OponIfa />}
               />
               <Route
                 path={`/${pages[0].toLowerCase()}`}
@@ -119,7 +143,7 @@ function App() {
                 element={<Profile />}
               />
               <Route
-                path={`/myAccount`}
+                path={`/my_account`}
                 element={<MyAccount />}
               />
               <Route
@@ -127,13 +151,14 @@ function App() {
                 element={<Messenger />}
               />
               <Route path={`/links`} element={<Links />} />
+              <Route path={`/editor`} element={<PostEditor />} />
               <Route path="/*" element={<Home />} />
             </Routes>
           </Paper>
 
           <BottomNav />
         </Box>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 }

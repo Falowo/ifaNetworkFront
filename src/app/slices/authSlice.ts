@@ -25,7 +25,7 @@ export interface AuthState {
   token?: string;
   isFetching: boolean;
   error: boolean;
-  darkMode: boolean;
+  theme: "darkTheme" | "lightTheme"
 }
 
 const initialState: AuthState = {
@@ -34,7 +34,7 @@ const initialState: AuthState = {
   token: undefined,
   isFetching: false,
   error: false,
-  darkMode: false,
+  theme: "darkTheme",
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -104,11 +104,10 @@ export const authSlice = createSlice({
     // Use the PayloadAction type to declare the contents of `action.payload`
     toggleDarkMode: (
       state,
-      action?: PayloadAction<boolean>,
+      action: PayloadAction<"darkTheme"|"lightTheme">,
     ) => {
-      state.darkMode = action
-        ? action.payload
-        : !state.darkMode;
+      state.theme = action.payload
+        
     },
     setToken: (
       state,
@@ -147,6 +146,8 @@ export const { toggleDarkMode, setToken } =
 
 export const selectAuthUser = (state: RootState) =>
   state.auth.authUser;
+export const selectUserDB = (state: RootState) =>
+  state.auth.userDB;
 export const selectToken = (state: RootState) =>
   state.auth.token;
 

@@ -33,7 +33,7 @@ root.render(
           <App />
         </Auth0Provider>
       </Provider>
-    </Router>
+    </Router>,
   </React.StrictMode>,
 );
 

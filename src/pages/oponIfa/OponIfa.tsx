@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./oponIfa.css";
 import OponIfaImage from "./square-opon-ifa-black.jpg";
-
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
   FormControlLabel,
   FormGroup,
+  Stack,
   Switch,
+  Typography,
 } from "@mui/material";
 import * as timeago from "timeago.js";
 
@@ -41,6 +43,7 @@ import IsNotAsking from "../../components/oponIfaMods/IsNotAsking";
 import IsAsking from "../../components/oponIfaMods/IsAsking";
 
 export default function OponIfa() {
+  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth0();
   const [isAsking, setIsAsking] = useState<boolean>(false);
   const [isDivinationMode, setIsDivinationMode] =
@@ -185,8 +188,10 @@ export default function OponIfa() {
         }}
       >
         <FormGroup>
-          <FormControlLabel
-            control={
+          {/* <FormControlLabel
+            control={ */}
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography sx={{size: 'small'}}>Study</Typography>
               <Switch
                 checked={isDivinationMode}
                 onChange={() =>
@@ -199,15 +204,17 @@ export default function OponIfa() {
                   (user?.name !==
                     "Josselin Falowo Krikorian" &&
                     user?.name !== "Falowo Orisatola")
-                }
-              />
-            }
+                  }
+                  />
+                  <Typography>Divination</Typography>
+              </Stack>
+            {/* }
             label={
               isDivinationMode
                 ? "Divination Mode"
                 : `Study Mode`
             }
-          />
+          /> */}
         </FormGroup>
       </Box>
       {!isAsking ? (
@@ -284,10 +291,10 @@ export default function OponIfa() {
             ) => {
               e.stopPropagation();
               console.log("go room");
+              navigate(`/odu_room/${currentOdu.binId}`);
             }}
             sx={{
               fontSize: "1.5rem",
-              //   fontWeight: "bolder",
               cursor: "pointer",
               margin: "8px",
               minWidth: "32px",

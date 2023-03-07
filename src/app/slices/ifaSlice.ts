@@ -35,12 +35,11 @@ export enum LegName {
 export interface OduItem {
   leg0: boolean[];
   leg1: boolean[];
-  nameLeg0?: LegName;
-  nameLeg1?: LegName;
   oduNames?: string[];
   randomColor?: string;
   createdAt?: string;
   questionPlace?: boolean;
+  binId?: number;
 }
 
 export interface Question {
@@ -64,9 +63,6 @@ const initialState: IfaCity = {
   current: {
     leg0: [],
     leg1: [],
-
-    nameLeg0: undefined,
-    nameLeg1: undefined,
     oduNames: [],
     createdAt: undefined,
   },
@@ -200,6 +196,22 @@ const getLegName = (leg: boolean[]): LegName => {
     console.log(leg);
     return LegName.ogbe;
   }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getOduBinId = (legs: {
+  leg0: boolean[];
+  leg1: boolean[];
+}): number => {
+  const { leg0, leg1 } = legs;
+  const oduArray = leg0.concat(leg1);
+  let oduBinId: number = 0;
+  let iValue: number = 1;
+  for (const mark of oduArray) {
+    oduBinId += Number(mark) * iValue;
+    iValue = iValue * 2;
+  }
+  return oduBinId;
 };
 
 const nameOdu = (
@@ -379,10 +391,11 @@ export const ifaSlice = createSlice({
         !!Math.round(Math.random()),
         !!Math.round(Math.random()),
       ];
-
+      const binId = getOduBinId({ leg0, leg1 });
       state.current = {
         leg0,
         leg1,
+        binId,
       };
 
       if (!state.current.oduNames?.length) {
@@ -403,8 +416,6 @@ export const ifaSlice = createSlice({
 
         state.current = {
           ...state.current,
-          nameLeg0,
-          nameLeg1,
           oduNames,
           randomColor,
           createdAt,
@@ -422,7 +433,6 @@ export const ifaSlice = createSlice({
     },
     blankTrail: (state) => {
       state.current = initialState.current;
-      // state.history = initialState.history;
       state.question = initialState.question;
     },
     initializeIndexCurrentOdu: (state) => {
@@ -478,6 +488,8 @@ export const ifaSlice = createSlice({
               } else return !!m;
             }),
           };
+          // const nameLeg0 = getLegName(state.current.leg0);
+          // state.current = { ...state.current, nameLeg0 };
         } else if (legEntry === true) {
           state.current = {
             ...state.current,
@@ -487,7 +499,13 @@ export const ifaSlice = createSlice({
               } else return !!m;
             }),
           };
+          // const nameLeg1 = getLegName(state.current.leg1);
+          // state.current = { ...state.current, nameLeg1 };
         }
+        const binId = getOduBinId({
+          leg0: state.current.leg0,
+          leg1: state.current.leg1,
+        });
 
         const oduName = nameOdu(
           state.current.leg0,
@@ -496,6 +514,7 @@ export const ifaSlice = createSlice({
 
         state.current = {
           ...state.current,
+          binId,
           oduNames: [oduName],
         };
 
@@ -599,15 +618,6 @@ export const selectIndexCurrentOdu = (state: RootState) =>
 export const selectIndexCurrentQuestion = (
   state: RootState,
 ) => state.ifa.indexCurrentQuestion;
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-// export const incrementIfOdd =
-//   (amount: number): AppThunk =>
-//   (dispatch, getState) => {
-//     const currentValue = selectCount(getState());
-//     if (currentValue % 2 === 1) {
-//       dispatch(incrementByAmount(amount));
-//     }
-//   };
+
 
 export default ifaSlice.reducer;

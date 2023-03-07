@@ -163,7 +163,7 @@ export default function PrimarySearchAppBar(props: Props) {
       <MenuItem
         onClick={() => {
           handleMenuClose();
-          navigate("/myAccount");
+          navigate("/my_account");
         }}
       >
         My account
@@ -299,16 +299,16 @@ export default function PrimarySearchAppBar(props: Props) {
             </ListItemButton>
           </ListItem>
         ))}
-         <ListItem key={"links"} disablePadding>
-            <ListItemButton
-              sx={{ textAlign: "center" }}
-              onClick={() => {
-                navigate(`/links`);
-              }}
-            >
-              <ListItemText primary="Links" />
-            </ListItemButton>
-          </ListItem>
+        <ListItem key={"links"} disablePadding>
+          <ListItemButton
+            sx={{ textAlign: "center" }}
+            onClick={() => {
+              navigate(`/links`);
+            }}
+          >
+            <ListItemText primary="Links" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -319,7 +319,7 @@ export default function PrimarySearchAppBar(props: Props) {
       : undefined;
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, width: "100%" }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
