@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
-  FormControlLabel,
   FormGroup,
   Stack,
   Switch,
@@ -43,8 +42,31 @@ import {
 import { selectUserDB } from "../../app/slices/authSlice";
 import IsNotAsking from "../../components/oponIfaMods/IsNotAsking";
 import IsAsking from "../../components/oponIfaMods/IsAsking";
+import {
+  alpha,
+  styled,
+  useTheme,
+} from "@mui/material/styles";
+import { deepPurple } from "@mui/material/colors";
+
+const DeepPurpleSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: deepPurple["A400"],
+    "&:hover": {
+      backgroundColor: alpha(
+        deepPurple["A400"],
+        theme.palette.action.hoverOpacity,
+      ),
+    },
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track":
+    {
+      backgroundColor: deepPurple["A400"],
+    },
+}));
 
 export default function OponIfa() {
+  const theme = useTheme();
   const userDB = useAppSelector(selectUserDB);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth0();
@@ -67,6 +89,10 @@ export default function OponIfa() {
     selectIsDivinationMode,
   );
   const [odu, setOdu] = useState(currentOdu);
+  useEffect(() => {
+    console.log({ deepPurple: deepPurple["A400"] });
+  }, []);
+
   useEffect(() => {
     !!oduHistory.length &&
       setOdu(oduHistory[indexCurrentOdu]);
@@ -186,7 +212,8 @@ export default function OponIfa() {
   ]);
 
   useEffect(() => {
-    isAsking && inputEl.current?.focus();
+    isAsking &&
+      inputEl.current?.focus({ preventScroll: true });
   }, [isAsking]);
 
   return (
@@ -206,11 +233,15 @@ export default function OponIfa() {
             alignItems="center"
           >
             <Typography
-              color={!isDivinationMode ? "inherit" : "grey"}
+              color={
+                !isDivinationMode
+                  ? "inherit"
+                  : theme.palette.text.disabled
+              }
             >
               Study
             </Typography>
-            <Switch
+            <DeepPurpleSwitch
               checked={isDivinationMode}
               onChange={() =>
                 dispatch(toggleIsDivinationMode())
@@ -228,7 +259,9 @@ export default function OponIfa() {
             />
             <Typography
               color={
-                !!isDivinationMode ? "inherit" : "grey"
+                !!isDivinationMode
+                  ? "inherit"
+                  : theme.palette.text.disabled
               }
             >
               Divination
@@ -257,8 +290,8 @@ export default function OponIfa() {
               textAlign: "center",
               color: `${
                 !!odu?.randomColor
-                  ? "#" + odu.randomColor
-                  : "white"
+                  ? odu.randomColor
+                  : theme.palette.text.primary
               }`,
             }}
           >
@@ -270,8 +303,8 @@ export default function OponIfa() {
             className="spanTimeAgo"
             style={{
               color: !!odu?.randomColor
-                ? `${"#" + odu?.randomColor}`
-                : "white",
+                ? odu?.randomColor
+                : theme.palette.text.primary,
             }}
           >
             {!!odu?.createdAt &&
@@ -477,18 +510,27 @@ export default function OponIfa() {
             justifyContent: "flex-end",
           }}
         >
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isAsking}
-                  onChange={() => setIsAsking(!isAsking)}
-                  aria-label="isAsking switch"
-                />
-              }
-              label="?"
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+          >
+            <Switch
+              checked={isAsking}
+              onChange={() => setIsAsking(!isAsking)}
+              aria-label="isAsking switch"
+              color="default"
             />
-          </FormGroup>
+            <Typography
+              color={
+                !!isAsking
+                  ? "inherit"
+                  : theme.palette.text.disabled
+              }
+            >
+              ?
+            </Typography>
+          </Stack>
         </Box>
       </>
     </>

@@ -7,7 +7,16 @@ import {
   //   PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-
+import {
+  red,
+  yellow,
+  lime,
+  cyan,
+  lightBlue,
+  purple,
+  pink,
+  green,
+} from "@mui/material/colors";
 export interface Mark {
   legEntry: boolean;
   indexOfLeg: number;
@@ -410,11 +419,35 @@ export const ifaSlice = createSlice({
 
         const oduNames = [oduName];
 
-        let randomValue = 0.48 + Math.random() / 4;
+        const colors = [
+          red.A700,
+          yellow.A700,
+          lime.A700,
+          cyan.A200,
+          lightBlue.A700,
+          purple.A700,
+          purple.A200,
+          pink.A700,
+          green.A400,
+        ];
 
-        const randomColor = Math.floor(
-          randomValue * 16777215,
-        ).toString(16);
+        let previousRandomColor = "";
+        if (!!state.history.length) {
+          previousRandomColor =
+            state.history[0].randomColor || "white";
+        } else {
+          previousRandomColor = "white";
+        }
+
+        let randomColor =
+          colors[
+            Math.round((colors.length - 1) * Math.random())
+          ];
+
+        while (randomColor === previousRandomColor) {
+          randomColor =
+            colors[Math.round(7 * Math.random())];
+        }
         const createdAt = new Date().toString();
 
         state.current = {

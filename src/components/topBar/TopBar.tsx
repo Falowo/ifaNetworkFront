@@ -276,7 +276,7 @@ export default function PrimarySearchAppBar(props: Props) {
             navigate(`/`);
           }}
         >
-          {isDivinationMode ? "Adáfá" : "Akọ́fá"}
+          {isDivinationMode ? "Dá Ifá" : "Kọ́ Ifá"}
         </Button>
       </Typography>
       <Divider />
@@ -340,7 +340,7 @@ export default function PrimarySearchAppBar(props: Props) {
                 navigate(`/`);
               }}
             >
-              {isDivinationMode ? "Adáfá" : "Akọ́fá"}
+              {isDivinationMode ? "Dá Ifá" : "Kọ́ Ifá"}
             </Button>
           </Typography>
           <Search>

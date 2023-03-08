@@ -15,9 +15,7 @@ import {
 import CssBaseline from "@mui/material/CssBaseline";
 import TopBar from "./components/topBar/TopBar";
 import BottomNav from "./components/bottomNav/BottomNav";
-import {
-  getOrCreateUserDBSecureAsync,
-} from "./app/slices/authSlice";
+import { getOrCreateUserDBSecureAsync } from "./app/slices/authSlice";
 import Home from "./pages/home/Home";
 import Page0 from "./pages/page0/Page0";
 import Page1 from "./pages/page1/Page1";
@@ -28,6 +26,7 @@ import Links from "./pages/links/Links";
 import Messenger from "./pages/messenger/Messenger";
 import MyAccount from "./pages/myAccount/MyAccount";
 import PostEditor from "./pages/postEditor/PostEditor";
+import DraftJsEditor from "./components/draftJsEditor/DraftJsEditor";
 // import { getPublicRequest } from "./api/auth.api";
 export const darkTheme = createTheme({
   palette: {
@@ -90,7 +89,6 @@ function App() {
   ]);
 
   return (
-    // <ThemeProvider theme={darkTheme}>
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Box
@@ -116,7 +114,12 @@ function App() {
         >
           <Paper
             elevation={1}
-            sx={{ p: { xs: 1, md: 3 } }}
+            sx={{
+              p: {
+                xs: 1,
+                md: 3,
+              },
+            }}
             className="paper"
           >
             <Routes>
@@ -155,6 +158,10 @@ function App() {
               <Route
                 path={`/editor`}
                 element={<PostEditor />}
+              />
+              <Route
+                path={`/draft`}
+                element={<DraftJsEditor />}
               />
               <Route path="/*" element={<Home />} />
             </Routes>

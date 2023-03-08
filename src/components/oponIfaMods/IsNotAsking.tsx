@@ -100,8 +100,8 @@ export default function IsNotAsking(props: {
                   style={{
                     textShadow,
                     color: !!odu.randomColor
-                      ? `${"#" + odu.randomColor}`
-                      : "white",
+                      ? odu.randomColor
+                      : "inherit",
                   }}
                 >
                   {m === true ? "I" : "II"}
@@ -140,8 +140,8 @@ export default function IsNotAsking(props: {
                   style={{
                     textShadow,
                     color: !!odu.randomColor
-                      ? `${"#" + odu.randomColor}`
-                      : "white",
+                      ? odu.randomColor
+                      : "inherit",
                   }}
                 >
                   {m === true ? "I" : "II"}

@@ -5,6 +5,7 @@ import {
   selectIndexCurrentQuestion,
   selectQuestionHistory,
 } from "../../app/slices/ifaSlice";
+import { selectUserDB } from "../../app/slices/authSlice";
 
 export default function IsAsking() {
   const questionHistory = useAppSelector(
@@ -13,6 +14,7 @@ export default function IsAsking() {
   const indexCurrentQuestion = useAppSelector(
     selectIndexCurrentQuestion,
   );
+  const userDB = useAppSelector(selectUserDB);
   const textShadow = "-4px 1px #002021";
   const textShadow2 = "-1px 1px #002021";
 
@@ -65,12 +67,9 @@ export default function IsAsking() {
                       color: !!questionHistory[
                         indexCurrentQuestion
                       ]?.secondOdu?.randomColor
-                        ? `${
-                            "#" +
-                            questionHistory[
-                              indexCurrentQuestion
-                            ]?.secondOdu?.randomColor
-                          }`
+                        ? questionHistory[
+                            indexCurrentQuestion
+                          ]?.secondOdu?.randomColor
                         : "white",
                     }}
                   >
@@ -101,12 +100,9 @@ export default function IsAsking() {
                     color: !!questionHistory[
                       indexCurrentQuestion
                     ]?.secondOdu?.randomColor
-                      ? `${
-                          "#" +
-                          questionHistory[
-                            indexCurrentQuestion
-                          ]?.secondOdu?.randomColor
-                        }`
+                      ? questionHistory[
+                          indexCurrentQuestion
+                        ]?.secondOdu?.randomColor
                       : "white",
                   }}
                 >
@@ -139,12 +135,9 @@ export default function IsAsking() {
                       color: !!questionHistory[
                         indexCurrentQuestion
                       ].firstOdu.randomColor
-                        ? `${
-                            "#" +
-                            questionHistory[
-                              indexCurrentQuestion
-                            ].firstOdu.randomColor
-                          }`
+                        ? questionHistory[
+                            indexCurrentQuestion
+                          ].firstOdu.randomColor
                         : "white",
                     }}
                   >
@@ -175,12 +168,9 @@ export default function IsAsking() {
                     color: !!questionHistory[
                       indexCurrentQuestion
                     ].firstOdu.randomColor
-                      ? `${
-                          "#" +
-                          questionHistory[
-                            indexCurrentQuestion
-                          ].firstOdu.randomColor
-                        }`
+                      ? questionHistory[
+                          indexCurrentQuestion
+                        ].firstOdu.randomColor
                       : "white",
                   }}
                 >
@@ -210,9 +200,7 @@ export default function IsAsking() {
                 color: !!questionHistory[
                   indexCurrentQuestion
                 ]?.secondOdu?.randomColor
-                  ? `${
-                      "#" + question?.secondOdu?.randomColor
-                    }`
+                  ? question?.secondOdu?.randomColor
                   : "white",
               }}
             >
@@ -239,9 +227,7 @@ export default function IsAsking() {
                 color: !!questionHistory[
                   indexCurrentQuestion
                 ]?.firstOdu?.randomColor
-                  ? `${
-                      "#" + question?.firstOdu?.randomColor
-                    }`
+                  ? question?.firstOdu?.randomColor
                   : "white",
               }}
             >
@@ -268,6 +254,7 @@ export default function IsAsking() {
               <a
                 className="beeLink"
                 onClick={(e) => {
+                  userDB?.isBabalawo && e.preventDefault();
                   e.stopPropagation();
                 }}
                 href={
