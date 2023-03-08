@@ -303,6 +303,16 @@ export default function PrimarySearchAppBar(props: Props) {
             <ListItemText primary="Links" />
           </ListItemButton>
         </ListItem>
+        <ListItem key={"editor"} disablePadding>
+          <ListItemButton
+            sx={{ textAlign: "center" }}
+            onClick={() => {
+              navigate(`/editor`);
+            }}
+          >
+            <ListItemText primary="editor" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
