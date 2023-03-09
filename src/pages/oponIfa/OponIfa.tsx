@@ -94,9 +94,12 @@ export default function OponIfa() {
   }, []);
 
   useEffect(() => {
-    !!oduHistory.length &&
+    if (indexCurrentOdu === 0) {
+      setOdu(currentOdu);
+    } else {
       setOdu(oduHistory[indexCurrentOdu]);
-  }, [indexCurrentOdu, oduHistory]);
+    }
+  }, [indexCurrentOdu, oduHistory, currentOdu]);
 
   const [colorSkipNextCommand, setSkipNextColorCommand] =
     useState<

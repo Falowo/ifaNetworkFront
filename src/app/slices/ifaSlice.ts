@@ -557,12 +557,12 @@ export const ifaSlice = createSlice({
           oduNames: [oduName],
         };
 
-        state.history = [state.current, ...state.history];
-        if (state.history?.length > 16) {
-          state.history = state.history.filter(
-            (o) => state.history.indexOf(o) < 16,
-          );
-        }
+        // state.history = [state.current, ...state.history];
+        // if (state.history?.length > 16) {
+        //   state.history = state.history.filter(
+        //     (o) => state.history.indexOf(o) < 16,
+        //   );
+        // }
       }
     },
   },

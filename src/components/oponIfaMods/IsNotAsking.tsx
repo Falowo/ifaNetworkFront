@@ -34,20 +34,22 @@ export default function IsNotAsking(props: {
   const [odu, setOdu] = useState(currentOdu);
 
   useEffect(() => {
-    !!oduHistory.length &&
+   if (indexCurrentOdu === 0){
+      setOdu(currentOdu);
+    }else{
       setOdu(oduHistory[indexCurrentOdu]);
-  }, [indexCurrentOdu, oduHistory]);
+    }
+      
+  }, [currentOdu, indexCurrentOdu, oduHistory]);
 
   useEffect(() => {
     if (indexCurrentOdu === 0) {
       if (
-        window.screen.width >= 1280 &&
-        !isDivinationMode
+        window.screen.width >= 1280 
       ) {
         setMarkItemClassName("markItem");
       } else if (
-        window.screen.width < 1280 &&
-        !isDivinationMode
+        window.screen.width < 1280
       ) {
         setMarkItemClassName("mobileMarkItem");
       } else {
