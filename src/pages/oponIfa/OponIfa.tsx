@@ -473,15 +473,18 @@ export default function OponIfa() {
         <div
           className="divImageOpon"
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
-            if (!isAsking) {
-              dispatch(castOdu());
-            } else {
-              const question = inputEl.current?.value;
+            if (!isDivinationMode) {
+              if (!isAsking) {
+                dispatch(castOdu());
+              } else {
+                const question = inputEl.current?.value;
 
-              dispatch(
-                askQuestionAsync({ ibo: true, question }),
-              );
+                dispatch(
+                  askQuestionAsync({ ibo: true, question }),
+                );
+              }
               if (!!inputEl?.current?.value) {
                 inputEl.current.value = "";
               }

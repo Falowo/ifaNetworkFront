@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Cancel, PermMedia } from "@mui/icons-material";
+import {
+  CancelTwoTone,
+  PermMedia,
+} from "@mui/icons-material";
 
 import "./uploadImage.css";
-import { Box } from "@mui/material";
+import {
+  Box,
+  ImageList,
+  ImageListItem,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import PlaceHolder from "./images/placeHolderImage1.jpg";
 
-const MAX_COUNT = 5;
+const MAX_COUNT = 15;
 
 export default function UploadImage() {
   const theme = useTheme();
@@ -65,33 +73,63 @@ export default function UploadImage() {
         p: 1,
       }}
     >
-      <Box
-        className="shareImgContainer"
+      {/* <Box
         sx={{ display: "flex", width: "100%" }}
-      >
-        {!!uploadedFiles.length
-          ? uploadedFiles.map((file) => (
-              <div className="shareImgContainer">
-                <img
-                  className="shareImg"
-                  src={URL.createObjectURL(file)}
-                  alt={file.name}
-                  style={{ maxWidth: "100%" }}
-                />
-                <Cancel
-                  className="shareCancelImg"
-                  onClick={() =>
-                    setUploadedFiles(
-                      uploadedFiles.filter(
-                        (f) => f.name !== file.name,
-                      ),
-                    )
-                  }
-                />
-              </div>
-            ))
-          : null}
-      </Box>
+      > */}
+
+      {!!uploadedFiles.length ? (
+        <ImageList
+          sx={{ width: "100%", minHeight: 150 }}
+          cols={3}
+          rowHeight={100}
+        >
+          {uploadedFiles.map((file) => (
+            // <Box
+            //   className="shareImgContainer"
+            //   sx={{
+            //     display: "flex",
+            //     flexDirection: "row-reverse",
+            //   }}
+            // >
+            <ImageListItem key={file.name}>
+              <img
+                // className="shareImg"
+                // src={URL.createObjectURL(file)}
+                // alt={file.name}
+                // style={{ maxWidth: "100%" }}
+                src={`${URL.createObjectURL(file)}`}
+                srcSet={`${URL.createObjectURL(file)}`}
+                alt={file.name}
+                loading="lazy"
+              />
+              <CancelTwoTone
+                color="error"
+                className="shareCancelImg"
+                onClick={() => {
+                  setUploadedFiles(
+                    uploadedFiles.filter(
+                      (f: File) => f.name !== file.name,
+                    ),
+                  );
+                  setFileLimit(false);
+                }}
+              />
+              {/* </Box> */}
+            </ImageListItem>
+          ))}
+        </ImageList>
+      ) : (
+        <div className="shareImgContainer">
+          <img
+            className="shareImg"
+            src={PlaceHolder}
+            alt=""
+            style={{ maxWidth: "100%" }}
+          />
+        </div>
+      )}
+      {/* </Box> */}
+
       <form
         className="shareBottom"
         // onSubmit={submitHandler}

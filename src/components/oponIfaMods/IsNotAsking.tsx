@@ -80,6 +80,7 @@ export default function IsNotAsking(props: {
                 <h2
                   key={i}
                   onClick={(e) => {
+                    e.preventDefault();
                     !isDivinationMode &&
                       e.stopPropagation();
 
@@ -122,7 +123,7 @@ export default function IsNotAsking(props: {
                 <h2
                   key={i}
                   onClick={(e) => {
-                    // window.screen.width >= 1280 &&
+                    e.preventDefault();
                     !isDivinationMode &&
                       e.stopPropagation();
                     const mark: Mark = {
