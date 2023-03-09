@@ -92,10 +92,10 @@ export default function IsNotAsking(props: {
                       mark,
                       currentOdu,
                     };
-                    if (!isDivinationMode) {
+                    
                       indexCurrentOdu === 0 &&
                         dispatch(modifyCurrentOdu(payload));
-                    }
+                    
                   }}
                   className={markItemClassName}
                   style={{
@@ -132,10 +132,10 @@ export default function IsNotAsking(props: {
                     };
                     const payload = { mark, currentOdu };
                     // if (window.screen.width >= 1280) {
-                    if (!isDivinationMode) {
+                    
                       indexCurrentOdu === 0 &&
                         dispatch(modifyCurrentOdu(payload));
-                    }
+                    
                   }}
                   className={markItemClassName}
                   style={{
