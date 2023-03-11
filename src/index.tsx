@@ -20,7 +20,7 @@ const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Router>
       <Provider store={store}>
         <Auth0Provider
@@ -33,8 +33,8 @@ root.render(
           <App />
         </Auth0Provider>
       </Provider>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
+  // </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

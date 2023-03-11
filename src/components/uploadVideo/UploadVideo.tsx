@@ -4,68 +4,64 @@ import {
   PermMedia,
 } from "@mui/icons-material";
 
-import "./uploadImage.css";
-import {
-  Box,
-  ImageList,
-  ImageListItem,
-} from "@mui/material";
+import "./uploadVideo.css";
+import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import PlaceHolder from "./images/placeHolderImage1.jpg";
-
-const imageMimeType = /image\/(png|jpg|jpeg)/i;
+import PlaceHolder from "../uploadImage/images/placeHolderImage1.jpg";
+import ReactPlayer from "react-player";
+const videoMimeType = /video\/*/i;
 const MAX_COUNT = 15;
 
-export default function UploadImage() {
+export default function UploadVideo() {
   const theme = useTheme();
 
-  const [uploadedImageFiles, setUploadedImageFiles] =
+  const [uploadedVideoFiles, setUploadedVideoFiles] =
     useState<File[]>([]);
-  const [imageFileLimit, setImageFileLimit] =
+  const [videoFileLimit, setVideoFileLimit] =
     useState(false);
 
-  const handleUploadImageFiles = (files: File[]) => {
-    const uploadedImages = [...uploadedImageFiles];
+  const handleUploadVideoFiles = (files: File[]) => {
+    const uploadedVideos = [...uploadedVideoFiles];
     let limitExceeded = false;
     files.some((file: File) => {
-      if (!file.type.match(imageMimeType)) {
-        alert("Image mime type is not valid");
+      if (!file.type.match(videoMimeType)) {
+        alert("Video mime type is not valid");
         return true;
       }
       if (
-        uploadedImages.findIndex(
+        uploadedVideos.findIndex(
           (f) => f.name === file.name,
         ) === -1
       ) {
-        uploadedImages.push(file);
+        uploadedVideos.push(file);
       }
-      if (uploadedImages.length === MAX_COUNT)
-        setImageFileLimit(true);
-      if (uploadedImages.length > MAX_COUNT) {
+      if (uploadedVideos.length === MAX_COUNT)
+        setVideoFileLimit(true);
+      if (uploadedVideos.length > MAX_COUNT) {
         alert(
           `You can only add a maximum of ${MAX_COUNT} files`,
         );
-        setImageFileLimit(false);
+        setVideoFileLimit(false);
         limitExceeded = true;
         return true;
       }
       return false;
     });
     if (!limitExceeded) {
-      setUploadedImageFiles(uploadedImages);
-      // setImageWidth(`${100 / uploadedFiles.length}%`);
+      setUploadedVideoFiles(uploadedVideos);
+      // setVideoWidth(`${100 / uploadedFiles.length}%`);
     }
   };
 
-  const handleImageFileEvent = (fileList: FileList) => {
+  const handleVideoFileEvent = (fileList: FileList) => {
     const chosenFiles =
       Array.prototype.slice.call(fileList);
-    handleUploadImageFiles(chosenFiles);
+    handleUploadVideoFiles(chosenFiles);
   };
 
   useEffect(() => {
-    console.log({ uploadedImageFiles });
-  }, [uploadedImageFiles]);
+    console.log({ uploadedVideoFiles });
+  }, [uploadedVideoFiles]);
   return (
     <Box
       sx={{
@@ -83,37 +79,37 @@ export default function UploadImage() {
         sx={{ display: "flex", width: "100%" }}
       > */}
 
-      {!!uploadedImageFiles.length ? (
-        <ImageList
-          sx={{ width: "100%", minHeight: 150 }}
-          cols={3}
-          rowHeight={100}
+      {!!uploadedVideoFiles.length ? (
+        <Box
+          sx={{
+            width: "100%",
+            minHeight: 150,
+            display: "flex",
+            flexDirection: "column",
+          }}
         >
-          {uploadedImageFiles.map((file) => (
-            <ImageListItem key={file.name}>
-              <img
-                src={`${URL.createObjectURL(file)}`}
-                srcSet={`${URL.createObjectURL(file)}`}
-                alt={file.name}
-                loading="lazy"
+          {uploadedVideoFiles.map((file) => (
+            <Box>
+              <ReactPlayer
+                url={`${URL.createObjectURL(file)}`}
+                controls={true}
               />
 
               <CancelTwoTone
                 color="error"
                 className="shareCancelImg"
                 onClick={() => {
-                  setUploadedImageFiles(
-                    uploadedImageFiles.filter(
+                  setUploadedVideoFiles(
+                    uploadedVideoFiles.filter(
                       (f: File) => f.name !== file.name,
                     ),
                   );
-                  setImageFileLimit(false);
+                  setVideoFileLimit(false);
                 }}
               />
-              {/* </Box> */}
-            </ImageListItem>
+            </Box>
           ))}
-        </ImageList>
+        </Box>
       ) : (
         <div className="shareImgContainer">
           <img
@@ -140,20 +136,20 @@ export default function UploadImage() {
             }}
           >
             <PermMedia htmlColor="tomato" />
-            <span className="shareOptionText">Image</span>
+            <span className="shareOptionText">Video</span>
             <input
-              disabled={imageFileLimit}
+              disabled={videoFileLimit}
               multiple
               style={{ display: "none" }}
               type="file"
               id="file"
-              accept="image/*"
+              accept="video/*, image/*"
               onChange={(e: React.ChangeEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
                 const target = e.target as HTMLInputElement;
                 !!target.files &&
-                  handleImageFileEvent(target.files);
+                  handleVideoFileEvent(target.files);
               }}
             />
           </label>
@@ -161,7 +157,7 @@ export default function UploadImage() {
         <button
           className="shareButton"
           type="submit"
-          disabled={imageFileLimit}
+          disabled={videoFileLimit}
         >
           {/* {!isEditing ? `Share` : `Edit`} */}
           Upload

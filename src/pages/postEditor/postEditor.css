@@ -7,3 +7,25 @@
 }
 
 
+.shareImgContainer {
+  position: relative;
+}
+.shareImg {
+  object-fit: contain;
+}
+
+.shareCancelImg {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+
+.shareOption {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  cursor: pointer;
+}
