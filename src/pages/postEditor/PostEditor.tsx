@@ -248,7 +248,7 @@ export default function UploadVideo() {
               color="error"
               className="shareCancelImg"
               onClick={() => {
-                setUploadedVideoFiles(
+                setUploadedAudioFiles(
                   uploadedAudioFiles.filter(
                     (f: File) => f.name !== file.name,
                   ),
