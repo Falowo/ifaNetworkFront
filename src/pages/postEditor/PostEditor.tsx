@@ -230,6 +230,7 @@ export default function UploadVideo() {
       {!!uploadedAudioFiles.length &&
         uploadedAudioFiles.map((file) => (
           <Box
+            key={file.name}
             className="shareImgContainer"
             sx={{ width: "100%" }}
           >
@@ -248,11 +249,11 @@ export default function UploadVideo() {
               className="shareCancelImg"
               onClick={() => {
                 setUploadedVideoFiles(
-                  uploadedVideoFiles.filter(
+                  uploadedAudioFiles.filter(
                     (f: File) => f.name !== file.name,
                   ),
                 );
-                setVideoFileLimitReached(false);
+                setAudioFileLimitReached(false);
               }}
             />
           </Box>
@@ -303,6 +304,7 @@ export default function UploadVideo() {
         >
           {uploadedVideoFiles.map((file) => (
             <Box
+              key={file.name}
               className="shareImgContainer"
               // sx={{ width: "100%" }}
             >
