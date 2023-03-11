@@ -14,7 +14,8 @@ import {
 import { useTheme } from "@mui/material/styles";
 import ReactPlayer from "react-player";
 import Title from "./Title";
-import DraftJsEditor from "../../components/draftJsEditor/DraftJsEditor";
+import TinymceEditor from "../../components/tinymceEditor/tinymceEditor";
+// import DraftJsEditor from "../../components/draftJsEditor/DraftJsEditor";
 const videoMimeType = /video\/*/i;
 const audioMimeType = /audio\/*/i;
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
@@ -292,7 +293,9 @@ export default function UploadVideo() {
         </ImageList>
       )}
 
-      <DraftJsEditor />
+                <TinymceEditor/>
+
+              {/* <DraftJsEditor />  */}
 
       {!!uploadedVideoFiles.length && (
         <Box
