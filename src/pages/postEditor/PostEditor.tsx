@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   CancelTwoTone,
-  PermMedia,
+  FileDownload,
 } from "@mui/icons-material";
 
 import "./postEditor.css";
@@ -13,8 +13,17 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ReactPlayer from "react-player";
-import Title from "./Title";
-import TinymceEditor from "../../components/tinymceEditor/tinymceEditor";
+// import TinymceEditor from "../../components/tinymceEditor/tinymceEditor";
+import QuillEditor from "../../components/quillEditor/QuillEditor";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../app/hooks";
+import {
+  selectTemporaryPost,
+  setTemporaryPost,
+} from "../../app/slices/postSlice";
+import { useLocation, useParams } from "react-router-dom";
 // import DraftJsEditor from "../../components/draftJsEditor/DraftJsEditor";
 const videoMimeType = /video\/*/i;
 const audioMimeType = /audio\/*/i;
@@ -22,8 +31,14 @@ const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 const MAX_COUNT = 3;
 
-export default function UploadVideo() {
+export default function PostEditor() {
+  const { pathname } = useLocation();
+  const { pageId, binId } = useParams();
+  console.log({ pathname });
+
   const theme = useTheme();
+  const temporaryPost = useAppSelector(selectTemporaryPost);
+  const dispatch = useAppDispatch();
 
   const [uploadedVideoFiles, setUploadedVideoFiles] =
     useState<File[]>([]);
@@ -31,6 +46,81 @@ export default function UploadVideo() {
     useState<File[]>([]);
   const [uploadedAudioFiles, setUploadedAudioFiles] =
     useState<File[]>([]);
+
+  useEffect(() => {
+    console.log({ pathname, pageId, binId });
+
+    if (pathname.includes("page")) {
+      if (!!pageId) {
+        console.log({ pageId });
+        if (temporaryPost?.pageId !== pageId) {
+          dispatch(
+            setTemporaryPost({
+              pageId,
+            }),
+          );
+        }
+      }
+    } else if (pathname.includes("odu")) {
+      if (!!binId) {
+        if (temporaryPost?.oduBinId !== parseInt(binId)) {
+          dispatch(
+            setTemporaryPost({
+              oduBinId: parseInt(binId),
+            }),
+          );
+        }
+        console.log({ binId });
+      }
+    }
+    console.log({ temporaryPost });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [binId, dispatch, pageId, pathname]);
+
+  useEffect(() => {
+    if (!!uploadedAudioFiles.length) {
+      const audioFileNames: string[] =
+        uploadedAudioFiles.map((f) => f.name);
+      dispatch(
+        setTemporaryPost({
+          ...temporaryPost,
+          audioFileNames,
+        }),
+      );
+    }
+    if (!!uploadedImageFiles.length) {
+      const imageFileNames: string[] =
+        uploadedImageFiles.map((f) => f.name);
+      dispatch(
+        setTemporaryPost({
+          ...temporaryPost,
+          imageFileNames,
+        }),
+      );
+    }
+    if (!!uploadedVideoFiles.length) {
+      const videoFileNames: string[] =
+        uploadedVideoFiles.map((f) => f.name);
+      dispatch(
+        setTemporaryPost({
+          ...temporaryPost,
+          videoFileNames,
+        }),
+      );
+    }
+    console.log({ temporaryPost });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    dispatch,
+    uploadedAudioFiles,
+    uploadedImageFiles,
+    uploadedVideoFiles,
+  ]);
+
+  useEffect(() => {
+    console.log({ temporaryPost });
+  }, [temporaryPost]);
 
   const [videoFileLimitReached, setVideoFileLimitReached] =
     useState(false);
@@ -87,11 +177,11 @@ export default function UploadVideo() {
       setAcceptedFiles("video/*");
     }
     console.log({ acceptedFiles });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     videoFileLimitReached,
     imageFileLimitReached,
     audioFileLimitReached,
-    acceptedFiles,
   ]);
 
   const handleUploadVideoFiles = (files: File[]) => {
@@ -236,8 +326,16 @@ export default function UploadVideo() {
             sx={{ width: "100%" }}
           >
             <ReactPlayer
+              config={{
+                file: {
+                  attributes: {
+                    controlsList: "nodownload",
+                  },
+                },
+              }}
               url={`${URL.createObjectURL(file)}`}
               controls={true}
+              // light={true}
               style={{
                 border: `1px solid ${theme.palette.divider}`,
               }}
@@ -259,7 +357,6 @@ export default function UploadVideo() {
             />
           </Box>
         ))}
-      <Title />
       {!!uploadedImageFiles.length && (
         <ImageList
           sx={{ width: "100%", minHeight: 150 }}
@@ -293,9 +390,10 @@ export default function UploadVideo() {
         </ImageList>
       )}
 
-                <TinymceEditor/>
+      <QuillEditor />
+      {/* <TinymceEditor/> */}
 
-              {/* <DraftJsEditor />  */}
+      {/* <DraftJsEditor />  */}
 
       {!!uploadedVideoFiles.length && (
         <Box
@@ -312,13 +410,20 @@ export default function UploadVideo() {
               // sx={{ width: "100%" }}
             >
               <ReactPlayer
+                config={{
+                  file: {
+                    attributes: {
+                      controlsList: "nodownload",
+                    },
+                  },
+                }}
                 url={`${URL.createObjectURL(file)}`}
                 controls={true}
                 style={{
                   border: `1px solid ${theme.palette.divider}`,
                 }}
                 width="100%"
-                // height="100%"
+                // light={true}
               />
 
               <CancelTwoTone
@@ -340,15 +445,16 @@ export default function UploadVideo() {
       <Box
         sx={{
           display: "flex",
-          alignSelf: "end",
+          alignItems: "center",
           width: "100%",
+          pt: "0.5rem",
+          justifyContent: "space-between",
         }}
       >
         <Box
           className="shareOptions"
           sx={{
-            alignSelf: "end",
-            width: "100%",
+            // alignSelf: "end",
             display: "flex",
             justifyContent: "space-between",
           }}
@@ -358,11 +464,20 @@ export default function UploadVideo() {
             className="shareOption"
             style={{
               display: "flex",
-              flexDirection: "column",
+              // flexDirection: "column",
+              padding: "0 1rem",
             }}
           >
-            <PermMedia htmlColor="tomato" />
-            <span className="shareOptionText">Files</span>
+            <FileDownload
+              color="warning"
+              sx={{ mr: "1rem" }}
+            />
+            <span
+              className="shareOptionText"
+              style={{ fontSize: "0.8rem" }}
+            >
+              Add audio, image or video (max: 3 of each)
+            </span>
             <input
               disabled={
                 videoFileLimitReached &&
@@ -384,6 +499,15 @@ export default function UploadVideo() {
             />
           </label>
         </Box>
+        {/* <Box
+          sx={{
+            justifySelf: "center",
+            flexGrow: 1,
+            textAlign: "center",
+          }}
+        >
+          Add audio, image or video (max: 3 of each)
+        </Box> */}
         <Button
           className="shareButton"
           type="submit"
@@ -392,9 +516,10 @@ export default function UploadVideo() {
             imageFileLimitReached &&
             audioFileLimitReached
           }
-          sx={{ alignSelf: "end" }}
+          sx={{ alignSelf: "end", px: "1rem" }}
+          color="success"
         >
-          Upload
+          Publish
         </Button>
       </Box>
     </Box>

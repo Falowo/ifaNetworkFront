@@ -17,16 +17,13 @@ import TopBar from "./components/topBar/TopBar";
 import BottomNav from "./components/bottomNav/BottomNav";
 import { getOrCreateUserDBSecureAsync } from "./app/slices/authSlice";
 import Home from "./pages/home/Home";
-import Page0 from "./pages/page0/Page0";
-import Page1 from "./pages/page1/Page1";
-import Page2 from "./pages/page2/Page2";
 import Shop from "./pages/shop/Shop";
 import Profile from "./pages/profile/Profile";
 import Links from "./pages/links/Links";
 import Messenger from "./pages/messenger/Messenger";
 import MyAccount from "./pages/myAccount/MyAccount";
 import PostEditor from "./pages/postEditor/PostEditor";
-import DraftJsEditor from "./components/draftJsEditor/DraftJsEditor";
+import ClassicPage from "./components/classicPages/ClassicPage";
 // import { getPublicRequest } from "./api/auth.api";
 export const darkTheme = createTheme({
   palette: {
@@ -39,7 +36,11 @@ export const lightTheme = createTheme({
   },
 });
 
-export const pages = ["Ifa", "Oshun", "Readings"];
+export const pages: string[] = [
+  "Ifa",
+  "Oshun/Egbe",
+  "Readings",
+];
 
 function App() {
   const {
@@ -129,18 +130,15 @@ function App() {
                 path="/odu_room/:binId"
                 element={<OponIfa />}
               />
-              <Route
-                path={`/${pages[0].toLowerCase()}`}
-                element={<Page0 />}
-              />
-              <Route
-                path={`/${pages[1].toLowerCase()}`}
-                element={<Page1 />}
-              />
-              <Route
-                path={`/${pages[2].toLowerCase()}`}
-                element={<Page2 />}
-              />
+
+              {pages.map((p) => (
+                <Route
+                  key={p}
+                  path={`/${p.toLowerCase()}/:pageIndex`}
+                  element={<ClassicPage />}
+                />
+              ))}
+
               <Route path={`/shop`} element={<Shop />} />
               <Route
                 path={`/profile`}
@@ -156,13 +154,18 @@ function App() {
               />
               <Route path={`/links`} element={<Links />} />
               <Route
-                path={`/editor`}
+                path={`/editor/page/:pageId`}
                 element={<PostEditor />}
               />
               <Route
-                path={`/draft`}
-                element={<DraftJsEditor />}
+                path={`/editor/odu/:binId`}
+                element={<PostEditor />}
               />
+              <Route
+                path={`/editor/edit/:postId`}
+                element={<PostEditor />}
+              />
+
               <Route path="/*" element={<Home />} />
             </Routes>
           </Paper>

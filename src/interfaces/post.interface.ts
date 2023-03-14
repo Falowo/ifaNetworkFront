@@ -6,25 +6,27 @@ export interface IComment {
   postId: string;
   content: string;
   userId: string;
+  imageFileName?: string;
+  audioFileName?: string;
+  likingUserIds?:string[];
   isEditing?: boolean;
 }
 
 export interface IPost {
   _id?: string;
-  oduBin?: number;
-  classicPageId?: string;
+  oduBinId?: number;
+  pageId?: string;
   userId?: string;
-  title?:string;
   content?:string;
-  imageNames?: string[];
-  audioNames?: string[];
-  videoNames?: string[];
-  comments?: Comment[];
+  imageFileNames?: string[];
+  audioFileNames?: string[];
+  videoFileNames?: string[];
+  comments?: IComment[];
   hashTags?: string[];
   locals?: string[];
-  backGround?: string;
   targetUserIds?: string[];
   likingUserIds?: string[];
+  theme?: string;
   isEditing?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

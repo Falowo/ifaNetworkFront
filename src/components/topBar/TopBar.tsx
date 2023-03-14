@@ -281,12 +281,12 @@ export default function PrimarySearchAppBar(props: Props) {
       </Typography>
       <Divider />
       <List>
-        {pages.map((page) => (
+        {pages.map((page, i) => (
           <ListItem key={page} disablePadding>
             <ListItemButton
               sx={{ textAlign: "center" }}
               onClick={() => {
-                navigate(`${page.toLowerCase()}`);
+                navigate(`${page.toLowerCase()}/${i}`);
               }}
             >
               <ListItemText primary={page} />
@@ -366,12 +366,12 @@ export default function PrimarySearchAppBar(props: Props) {
           <Box
             sx={{ display: { xs: "none", md: "block" } }}
           >
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Button
                 key={page}
                 sx={{ color: "#fff" }}
                 onClick={() => {
-                  navigate(`${page.toLowerCase()}`);
+                  navigate(`${page.toLowerCase()}/${i}`);
                 }}
               >
                 {page}
